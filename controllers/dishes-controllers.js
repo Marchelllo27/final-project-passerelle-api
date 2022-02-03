@@ -7,9 +7,10 @@ import getNutrientComparisonValue from "../utils/getNutrientAverageValueToCompar
 // GET ALL DISHES
 const getAllDishes = async (req, res, next) => {
   try {
-    const allDishes = await Dish.findDishtFilter();
+    const allDishes = await Dish.findDishFilter();
     res.json(allDishes);
   } catch (error) {
+    console.log(error)
         return next(new HttpError("Plats introuvables", 404));
   }
 }

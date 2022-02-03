@@ -26,7 +26,7 @@ class Dish {
     return DishesCollection.findById(id);
   }
 
-  async findDishtFilter(filter = {}) {
+   static findDishFilter(filter = {}) {
     return DishesCollection.find(filter);
   }
 
