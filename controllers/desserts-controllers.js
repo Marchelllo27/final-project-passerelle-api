@@ -1,13 +1,12 @@
 import { validationResult } from "express-validator";
 
 import HttpError from "../models/http-error";
-import DessertsCollection from "../database/Desserts.schema";
 import getNutrientComparisonValue from "../utils/getNutrientAverageValueToComparison";
 import Dessert from "../models/dessert.model";
 
 const getAllDesserts = async (req, res, next) => {
   try {
-    const allDesserts = await DessertsCollection.find();
+    const allDesserts = await Dessert.findDessertFilter();
 
     res.json(allDesserts);
   } catch (error) {
@@ -17,7 +16,7 @@ const getAllDesserts = async (req, res, next) => {
 
 const getDessertById = async (req, res, next) => {
   try {
-    const foundDessert = await DessertsCollection.findById(req.params.id);
+    const foundDessert = await Dessert.findDessert(req.params.id);
     res.json(foundDessert);
   } catch (error) {
     return next(new HttpError("Dessert introuvable", 404));
@@ -33,7 +32,7 @@ const getDessertByFilter = async (req, res, next) => {
 
   //Search dishesh in db by nutrient
   try {
-    const filteredDesserts = await DessertsCollection.find({
+    const filteredDesserts = await findDessertFilter.find({
       nutrients: {
         $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
       },
@@ -106,7 +105,7 @@ const updateDessert = async (req, res, next) => {
 // DELETE
 const deleteDessert = async (req, res, next) => {
   try {
-    await DessertsCollection.findByIdAndDelete(req.params.id);
+    await Dessert.findByIdAndDelete(req.params.id);
 
     res.json({ message: "Le dessert à été mis à jour" });
   } catch (error) {
