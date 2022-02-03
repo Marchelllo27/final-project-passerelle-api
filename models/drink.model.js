@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import DrinksCollection from "../database/Drinks.schema";
+import DrinksCollection from "../database/drinks.schema";
 
 class Drink {
   constructor(name, ingredients, nutrients, image, weight, description, price) {
@@ -18,6 +18,14 @@ class Drink {
     return DrinksCollection.findById(id);
   }
 
+  async findDishtFilter(filter = {}) {
+    return DishesCollection.find(filter);
+  }
+
+  async findByIdAndDelete(id) {
+    return DishesCollection.findByIdAndDelete(id);
+  }
+  
   //Update a drink
   async upDateDrink(id) {
     const drink = await this.findDrink(id);

@@ -1,5 +1,5 @@
 
-import DishesCollection from "../database/Dishes.schema";
+import DishesCollection from "../database/dishes.schema";
 class Dish {
   constructor(
     name,
@@ -24,6 +24,14 @@ class Dish {
   // find a dish
   findDish(id) {
     return DishesCollection.findById(id);
+  }
+
+  async findDishtFilter(filter = {}) {
+    return DishesCollection.find(filter);
+  }
+
+  async findByIdAndDelete(id) {
+    return DishesCollection.findByIdAndDelete(id);
   }
 
   //update a dish

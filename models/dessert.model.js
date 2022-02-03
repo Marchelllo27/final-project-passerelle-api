@@ -1,4 +1,4 @@
-import DessertsCollection from "../database/Desserts.schema";
+import DessertsCollection from "../database/desserts.schema";
 class Dessert {
   constructor(name, ingredients, nutrients, image, weight, description, price) {
     this.name = name;
@@ -13,6 +13,14 @@ class Dessert {
   // find a dessert
   findDessert(id) {
     return DessertsCollection.findById(id);
+  }
+
+  async findDessertFilter(filter = {}) {
+    return DessertsCollection.find(filter);
+  }
+
+  async findByIdAndDelete(id) {
+    return DessertsCollection.findByIdAndDelete(id);
   }
 
   //update a dessert

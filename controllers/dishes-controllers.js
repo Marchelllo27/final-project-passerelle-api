@@ -1,14 +1,13 @@
 import HttpError from "../models/http-error";
 import {validationResult } from "express-validator";
 
-import DishesCollection from "../database/Dishes.schema";
 import Dish from "../models/dish.model";
 import getNutrientComparisonValue from "../utils/getNutrientAverageValueToComparison";
 
 // GET ALL DISHES
 const getAllDishes = async (req, res, next) => {
   try {
-    const allDishes = await DishesCollection.find();
+    const allDishes = await Dish.findDishtFilter();
     res.json(allDishes);
   } catch (error) {
         return next(new HttpError("Plats introuvables", 404));
@@ -22,7 +21,7 @@ const getDishById = async (req, res, next) => {
     // const id = ObjectId(req.params.id);
     // const foundDish = await DishesCollection.findOne({ _id: id });
     //good solution for to lines above(marc)
-    const foundDish = await DishesCollection.findById(req.params.id);
+    const foundDish = await Dish.findById(req.params.id);
     res.json(foundDish);
   } catch (error) {
      return next(new HttpError("Plat introuvable", 404));
@@ -40,7 +39,7 @@ const getDishById = async (req, res, next) => {
   // get only vegetarian dishes
   if (nutrient === "vegetarian") {
     try {
-      const filteredVeganDishesh = await DishesCollection.find({
+      const filteredVeganDishesh = await Dish.findDishtFilter({
         type: "vegetarian",
       });
 
@@ -61,7 +60,7 @@ const getDishById = async (req, res, next) => {
 
   //Search dishesh in db by nutrient
   try {
-    const filteredDishesh = await DishesCollection.find({
+    const filteredDishesh = await Dish.findDishtFilter({
       nutrients: {
         $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
       },
@@ -137,7 +136,7 @@ const updateDish = async (req, res, next) => {
 
 const deleteDish = async (req, res, next) => {
   try {
-    await DishesCollection.findByIdAndDelete(req.params.id);
+    await Dish.findByIdAndDelete(req.params.id);
 
     res.json({ message: "Le plat à été effacé" });
   } catch (error) {

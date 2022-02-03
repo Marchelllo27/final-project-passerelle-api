@@ -1,13 +1,12 @@
 import { validationResult } from "express-validator";
 
 import HttpError from "../models/http-error";
-import DrinksCollection from "../database/Drinks.schema";
 import getNutrientComparisonValue from "../utils/getNutrientAverageValueToComparison";
 import Drink from "../models/drink.model";
 
 const getAllDrinks = async (req, res, next) => {
   try {
-    const allDrinks = await DrinksCollection.find();
+    const allDrinks = await Drink.findDrinkFilter();
     res.json(allDrinks);
   } catch (error) {
     return next(new HttpError("Boissons introuvales", 404));
@@ -16,7 +15,7 @@ const getAllDrinks = async (req, res, next) => {
 
 const getDrinkById = async (req, res, next) => {
   try {
-    const foundDrink = await DrinksCollection.findById(req.params.id);
+    const foundDrink = await Drink.findDrink(req.params.id);
 
     res.json(foundDrink);
   } catch (error) {
@@ -33,7 +32,7 @@ const getDrinkByFilter = async (req, res, next) => {
 
   //Search dishesh in db by nutrient
   try {
-    const filteredDrinks = await DrinksCollection.find({
+    const filteredDrinks = await Drink.findDrinkFilter({
       nutrients: {
         $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
       },
@@ -110,7 +109,7 @@ const updateDrink = async (req, res, next) => {
 
 const deleteDrink = async (req, res, next) => {
   try {
-    await DrinksCollection.findByIdAndDelete(req.params.id);
+    await Drink.findByIdAndDelete(req.params.id);
 
     res.json({ message: "Le jus à été effacé" });
   } catch (error) {

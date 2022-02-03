@@ -49,4 +49,4 @@ const DessertsSchema = new Schema(
   schemaOptions
 );
 
-export default mongoose.model("Desserts", DessertsSchema, "desserts");
+export default mongoose.model("desserts", DessertsSchema);
