@@ -1,6 +1,5 @@
-import { validationResult } from "express-validator";
 import HttpError from "../models/http-error";
-import OrderCollection from "../database/orders.schema";
+
 import Order from "../models/order.model";
 import User from "../models/user.model";
 import mongoose from "mongoose";
@@ -13,7 +12,7 @@ const findAllOrders = async (req, res, next) => {
   // get userId from token(we added decoded token to req.userData)
   const userId = req.userData.userId;
   try {
-    const orders = await OrderCollection.find({ "user._id": userId });
+    const orders = await Order.getAllOrders({ "user._id": userId });
     if (!orders || orders.length === 0) {
       return next(new HttpError("Désolé, vous n'avez aucune commande.", 404));
     }
@@ -27,25 +26,24 @@ const findAllOrders = async (req, res, next) => {
 
 //get on order by id
 const getOrderById = async (req, res, next) => {
-  const orders = await OrderCollection.find({
+
+  const orders = await Order.getAllOrders({
     "user._id": req.userData.userId,
   });
-  // console.log(orders)
 
   const foundOrder = orders.filter(order => {
     return order.id === req.params.id;
   })[0];
 
-
   console.log(foundOrder);
 
   return res.json();
-  try {
-    const findOrder = await OrderCollection.findById(req.params.id);
-    res.json(findOrder);
-  } catch (error) {
-    return next(new HttpError("Commande introuvable "), 404);
-  }
+  // try {
+  //   const findOrder = await OrderCollection.findById(req.params.id);
+  //   res.json(findOrder);
+  // } catch (error) {
+  //   return next(new HttpError("Commande introuvable "), 404);
+  // }
 };
 
 //get all orders//
@@ -92,7 +90,7 @@ const upDateOrder = async (req, res, next) => {
 //Delete Order
 const deleteOrder = async (req, res, next) => {
   try {
-    await OrderCollection.findByIdAndDelete(req.params.id);
+    await Order.deleteOrderById(req.params.id)
     res.json({ message: "La commande effacée" });
   } catch {
     return next(new HttpError("Echec de la suppression", 400));

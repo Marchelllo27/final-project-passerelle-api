@@ -7,15 +7,20 @@ class Order {
     this.totalPrice=totalPrice
   }
 
+  //Find all orders
+  static getAllOrders (filter = {}) {
+    return OrdersCollection.find();
+  }
+
+  // 
+
+
   //Find an order
-  findOrder(id) {
+    static findOrder(id) {
       return OrdersCollection.findById(id);
     } 
 
-  //Find all orders
-   static async getAllOrders () {
-      return OrdersCollection.find();
-  }
+  
 
   //Add an order
   async addOrder() {
@@ -33,6 +38,12 @@ class Order {
       order.user = this.user,
       order.totalPrice = this.totalPrice,
       await order.save();
+  }
+
+  // DELETE
+
+  static deleteOrderById(id) {
+   return  OrdersCollection.findByIdAndDelete(id)
   }
 }
 

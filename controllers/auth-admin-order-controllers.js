@@ -1,12 +1,11 @@
 import HttpError from "../models/http-error";
-import OrderCollection from "../database/orders.schema";
 import Order from "../models/order.model";
 import User from "../models/user.model";
 
 //get on order by id
 const getOrderById = async (req, res, next) => {
   try {
-    const findOrder = await OrderCollection.findById(req.params.id);
+    const findOrder = await Order.findOrder(req.params.id);
     res.json(findOrder);
   } catch (error) {
     return next(new HttpError("Commande introuvable "), 404);
@@ -58,7 +57,7 @@ const upDateOrder = async (req, res, next) => {
 //Delete Order
 const deleteOrder = async (req, res, next) => {
   try {
-    await OrderCollection.findByIdAndDelete(req.params.id);
+    await Order.deleteOrderById(req.params.id);
     res.json({ message: "La commande effacée" });
   } catch {
     return next(new HttpError("Echec de la suppression", 400));
