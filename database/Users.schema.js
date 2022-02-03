@@ -37,7 +37,7 @@ const UsersSchema = new Schema(
 
     firstName: {
       type: String,
-      required: false,
+      required: true,
     },
 
     phoneNumber: {
