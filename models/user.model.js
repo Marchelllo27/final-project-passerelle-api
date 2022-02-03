@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 
-import UsersCollection from "../database/users.schema";
+import UsersCollection from "../database/users1.schema";
 
 class User {
   constructor(
