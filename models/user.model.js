@@ -3,7 +3,17 @@ import bcrypt from "bcrypt";
 import UsersCollection from "../database/users.schema";
 
 class User {
-  constructor(email,password,lastName,firstName,phoneNumber, street, postalCode, city, apiKey) {
+  constructor(
+    email,
+    password,
+    lastName,
+    firstName,
+    phoneNumber,
+    street,
+    postalCode,
+    city,
+    apiKey
+  ) {
     this.email = email;
     this.password = password;
     this.lastName = lastName;
@@ -12,7 +22,7 @@ class User {
     this.address = {
       street,
       postalCode,
-      city
+      city,
     };
     this.apiKey = apiKey;
   }
@@ -20,16 +30,45 @@ class User {
   // FIND ALL USERS
   static findAllUsers() {
     // display wihout password and apiKey
-    return UsersCollection.find({}, { password: 0, apiKey: 0 })
+    return UsersCollection.find({}, { password: 0, apiKey: 0 });
   }
 
   // FIND USER BY ID
-   static findUserById(id) {
+  static findUserById(id) {
     return UsersCollection.findById(id);
   }
 
+  static findByApiKey(apiKey, fields) {
+    UsersCollection.findOne(
+      { apiKey: req.headers["x-api-key"] },
+      "firstname lastname email role"
+    ).exec((err, record) => {
+      if (!err && record) {
+        const payload = {
+          userId: record._id,
+          email: record.email,
+          role: record.role,
+        };
+
+        // Generate JWT
+        let token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
+
+        return res.status(200).json({
+          userId: record._id,
+          email: record.email,
+          role: record.role,
+          token: token,
+        });
+      } else {
+        return res
+          .status(400)
+          .json({ message: "La demande n'est pas valide." });
+      }
+    });
+  }
+
   getUserWithSameEmail() {
-    return UsersCollection.findOne({email: this.email});
+    return UsersCollection.findOne({ email: this.email });
   }
 
   async userExistAlready() {
@@ -46,23 +85,22 @@ class User {
   async addUserInDB() {
     const hachedPass = await bcrypt.hash(this.password, 12);
 
-     const response = await UsersCollection.create({
-        email: this.email,
-        password: hachedPass,
-        lastName: this.lastName,
-        firstName: this.firstName,
-        phoneNumber: this.phoneNumber,
-        address: this.address,
-        apiKey: this.apiKey,
-      });
-      return response;
+    const response = await UsersCollection.create({
+      email: this.email,
+      password: hachedPass,
+      lastName: this.lastName,
+      firstName: this.firstName,
+      phoneNumber: this.phoneNumber,
+      address: this.address,
+      apiKey: this.apiKey,
+    });
+    return response;
   }
 
   // UPDATE USER
   async updateUserData(id) {
-
     const user = await User.findUserById(id);
-    
+
     const hachedPass = await bcrypt.hash(this.password, 12);
 
     user.email = this.email;
@@ -77,9 +115,8 @@ class User {
 
   // DELETE USER
   static deleteUser(id) {
-    return UsersCollection.findByIdAndDelete(id)
+    return UsersCollection.findByIdAndDelete(id);
   }
-
 }
 
 export default User;

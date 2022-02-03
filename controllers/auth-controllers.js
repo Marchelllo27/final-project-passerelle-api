@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import { validationResult } from "express-validator";
 import uuidAPIKey from "uuid-apikey";
 
-import UsersCollection from "../database/users.schema";
 import User from "../models/user.model";
 import HttpError from "../models/http-error";
 
@@ -59,31 +58,14 @@ const auth = async (req, res, next) => {
     return res.status(400).json({ message: `La demande n'est pas valide.` });
   }
 
-  // If API key is valid we continue
-  UsersCollection.findOne(
-    { apiKey: req.headers["x-api-key"] },
-    "firstname lastname email role"
-  ).exec((err, record) => {
-    if (!err && record) {
-      const payload = {
-        userId: record._id,
-        email: record.email,
-        role: record.role,
-      };
+  // If API key is valid we generate TOKEN
+  try {
+     User.findByApiKey(req.headers["x-api-key"], "firstname lastname email role")
+  } catch (error) {
+      return next(new HttpError("La demande n'est pas valide.", 400))
+  }
 
-      // Generate JWT
-      let token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
-
-      return res.status(200).json({
-        userId: record._id,
-        email: record.email,
-        role: record.role,
-        token: token,
-      });
-    } else {
-      return res.status(400).json({ message: "La demande n'est pas valide." });
-    }
-  });
+  
 };
 
 // LOGIN
