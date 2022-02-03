@@ -12,8 +12,6 @@ class Order {
     return OrdersCollection.find();
   }
 
-  // 
-
 
   //Find an order
     static findOrder(id) {
