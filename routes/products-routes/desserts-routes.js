@@ -6,12 +6,12 @@ const router = Router();
 
 
 /**
- * @api {get} /products/all-desserts Request All Desserts
+ * @api {get} /products/all-desserts Get All Desserts
  * @apiName GetDesserts
  * @apiGroup Desserts
  *
  *
- * @apiSuccess {String} All-Desserts Return all Desserts on database.
+ * @apiSuccess {String} GET  Return all Desserts on database.
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -85,12 +85,12 @@ router.get("/products/all-desserts", dessertsControllers.getAllDesserts);
 
 
 /**
- * @api {get} /products/dessert/:id Request One Dessert
+ * @api {get} /products/dessert/:id Get Dessert
  * @apiName GetDessert
  * @apiGroup Desserts
  *
  *
- * @apiSuccess {String} Get one dessert by Id Return one the choosen dessert (by his Id).
+ * @apiSuccess {String} Get one dessert by Id Return the choosen dessert (by his Id).
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -138,12 +138,12 @@ router.get("/products/dessert/:id", dessertsControllers.getDessertById);
 
 
 /**
- * @api {get} //products/drinks?filters[]=proteins Request Dessert by nutrient filter
- * @apiName GetDessertByFilter
+ * @api {get} /products/desserts?filters[]=proteins Get Desserts by nutrient filter
+ * @apiName GetDessertsByFilter
  * @apiGroup Desserts
  *
  *
- * @apiSuccess {String} GET Dessert by nutrient filter Return all desserts who containes the nutrient selected to filter ex: Zinc , vitaminA.
+ * @apiSuccess {String} GET Desserts by nutrient filter Return all desserts who containes the nutrient selected to filter ex: Zinc , vitaminA.
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -177,14 +177,15 @@ router.get("/products/dessert/:id", dessertsControllers.getDessertById);
     }  
 ]
  *
- * @apiError Dessert not found.
+ * @apiError Desserts not found.
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 404 Not Found
  *     {
- *       "message": "Malheuresement nous n'avons pas le dessert qui correspont à votre besoin 😔 "
+ *       "message": "Malheuresement nous n'avons pas de desserts qui correspondent à votre besoin 😔 "
  *     }
  */
+
 //GET DESSERT BY NUTRIENT FILTER
 router.get("/products/desserts", dessertsControllers.getDessertByFilter);
 

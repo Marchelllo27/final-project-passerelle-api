@@ -48,7 +48,7 @@ const getDishById = async (req, res, next) => {
     } catch (error) {
         return next(
           new HttpError(
-            "Malheuresement nous n'avons pas de plat qui correspont à votre besoin 😔 ",
+            "Malheuresement nous n'avons pas de plats qui correspondent à votre besoin 😔 ",
             404
           )
         );
@@ -97,11 +97,11 @@ const addDish = async (req, res, next) => {
   try {
     const dishExist=await dish.dishExistAlready();
     if(dishExist){
-      return next(new HttpError("ce plat existe déja ", 422));
+      return next(new HttpError("Ce plat existe déja", 422));
     }
 
     await dish.addDish();
-    res.status(201).json({ message: "dish add" });
+    res.status(201).json({ message: "Le plat a été ajouté" });
   } catch (error) {
             console.log(error);
 
@@ -127,9 +127,9 @@ const updateDish = async (req, res, next) => {
       req.body.price
     );
     await dish.upDateDish(req.params.id);
-    res.json({ message: "La mise à jour effectuée!" });
+    res.json({ message: "Mise à jour effectuée!" });
   } catch (error) {
-     next(new HttpError("Echec de la mise à jour ", 400));
+     next(new HttpError("Echec de la mise à jour", 400));
   }
 }
 

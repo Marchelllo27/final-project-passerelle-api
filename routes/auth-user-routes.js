@@ -5,6 +5,29 @@ import authUsersControllers from "../controllers/auth-user-controllers"
 
 const router = Router();
 
+/**
+ * @api {put} /auth-user/update UpDate User
+ * @apiName UpDateUser
+ * @apiGroup Auth-Users
+ *
+ 
+ * @apiSuccess {String} Return the user information with the update.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *[
+   {
+      "message": "Données utilisateur modifiées"
+    }
+ ]
+ * 
+ * @apiError Not Found Erreur HTTP 404  .
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found	
+ *     { message: "Échec pendant modification des données" }
+ */
+
 //UPDATE AUTH USER
 router.put(
   "/auth-user/update",
@@ -35,6 +58,30 @@ router.put(
   authUsersControllers.updateUser
 );
 
+
+
+/**
+ * @api {delete} /auth-user/delete Delete User
+ * @apiName DeleteUser
+ * @apiGroup Auth-Users
+ *
+ 
+ * @apiSuccess {String} Delete Delete the user for the data base.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *[
+   {
+      "message": "L'utilisateur a été bien supprimé"
+    }
+ ]
+ * 
+ * @apiError Not Found Erreur HTTP 404   
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found	
+ *     { message: "Échec, l'utilisateur n'a pas été supprimé" }
+ */
 
 
 //DELETE AUTH USER FROM DATABASE

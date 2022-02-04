@@ -71,11 +71,11 @@ const addDrink = async (req, res, next) => {
   try {
     const drinkExist = await drink.drinkExistAlready();
     if (drinkExist) {
-      return next(new HttpError("cette boisson existe déja ", 422));
+      return next(new HttpError("Cette boisson existe déja", 422));
     }
 
     await drink.addDrink();
-    res.status(201).json({ message: "drink add" });
+    res.status(201).json({ message: "La boisson a été ajoutée" });
   } catch (error) {
     console.log(error);
     return next(new HttpError("Echec de l'ajout", 400));
@@ -111,7 +111,7 @@ const deleteDrink = async (req, res, next) => {
   try {
     await Drink.findByIdAndDelete(req.params.id);
 
-    res.json({ message: "Le jus à été effacé" });
+    res.json({ message: "La boisson à été effacée" });
   } catch (error) {
     return next(new HttpError("Echec de la suppression", 400));
   }

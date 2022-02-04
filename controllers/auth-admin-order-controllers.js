@@ -47,7 +47,7 @@ const upDateOrder = async (req, res, next) => {
     const order = new Order(products, user, req.body.totalPrice);
     await order.updateOrderByAdmin(req.params.id);
 
-    res.json({ message: "Mise à jour de la commande a été bien effectuée!" });
+    res.json({ message: "La mise à jour de la commande a été bien effectuée!" });
   } catch (error) {
     console.log(error);
     return next(new HttpError("Echec de la mise à jour", 400));
@@ -58,7 +58,7 @@ const upDateOrder = async (req, res, next) => {
 const deleteOrder = async (req, res, next) => {
   try {
     await Order.deleteOrderByAdmin(req.params.id);
-    res.json({ message: "La commande effacée" });
+    res.json({ message: "La commande a été effacée" });
   } catch {
     return next(new HttpError("Echec de la suppression", 400));
   }
