@@ -1,5 +1,5 @@
 import HttpError from "../models/http-error";
-import {validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 
 import Dish from "../models/dish.model";
 import getNutrientComparisonValue from "../utils/getNutrientAverageValueToComparison";
@@ -10,29 +10,26 @@ const getAllDishes = async (req, res, next) => {
     const allDishes = await Dish.findDishFilter();
     res.json(allDishes);
   } catch (error) {
-        return next(new HttpError("Plats introuvables", 404));
+    return next(new HttpError("Plats introuvables", 404));
   }
-}
+};
 
-
-// GET A DISH BY ID 
+// GET A DISH BY ID
 const getDishById = async (req, res, next) => {
   try {
     const foundDish = await Dish.findDishById(req.params.id);
 
-    if (!foundDish) return next(new HttpError("Plat n'existe pas", 404))
+    if (!foundDish) return next(new HttpError("Plat n'existe pas", 404));
 
     res.json(foundDish);
   } catch (error) {
-     return next(new HttpError("Plat introuvable", 404));
-
+    return next(new HttpError("Plat introuvable", 404));
   }
-}
-
+};
 
 // GET DISHES BY FILTER
 
- const getDishesByFilter = async (req, res, next) => {
+const getDishesByFilter = async (req, res, next) => {
   //get filters from query (.../...?filters)
   const nutrient = req.query.filters[0];
 
@@ -54,12 +51,12 @@ const getDishById = async (req, res, next) => {
 
       res.json(filteredVeganDishesh);
     } catch (error) {
-        return next(
-          new HttpError(
-            "Désolé, une erreur s'est produite lors de la recherche!",
-            404
-          )
-        );
+      return next(
+        new HttpError(
+          "Désolé, une erreur s'est produite lors de la recherche!",
+          404
+        )
+      );
     }
     return;
   }
@@ -77,20 +74,20 @@ const getDishById = async (req, res, next) => {
 
     res.json(filteredDishesh);
   } catch (error) {
-    return next( new HttpError(
-      "Désolé, une erreur s'est produite lors de la recherche! ",
-      404
-    ));
+    return next(
+      new HttpError(
+        "Désolé, une erreur s'est produite lors de la recherche! ",
+        404
+      )
+    );
   }
-}
+};
 
 // -------------------ADMIN DISHES ROUTES----------------------------
 
 // ADD DISH
 const addDish = async (req, res, next) => {
- 
-
-  const errors=validationResult(req);
+  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
   }
@@ -107,8 +104,8 @@ const addDish = async (req, res, next) => {
     req.body.price
   );
   try {
-    const dishExist=await dish.dishExistAlready();
-    if(dishExist){
+    const dishExist = await dish.dishExistAlready();
+    if (dishExist) {
       return next(new HttpError("Сe plat existe déja ", 422));
     }
 
@@ -117,20 +114,17 @@ const addDish = async (req, res, next) => {
   } catch (error) {
     return next(new HttpError("Echec de l'ajout", 400));
   }
-}
-
+};
 
 // UPDATE DISH
 const updateDish = async (req, res, next) => {
- 
-
   try {
     const dish = new Dish(
       req.body.name,
       req.body.ingredients,
       req.body.nutrients,
       req.body.image,
-    // req.file.path,
+      // req.file.path,
       req.body.weight,
       req.body.description,
       req.body.type,
@@ -139,9 +133,9 @@ const updateDish = async (req, res, next) => {
     await dish.upDateDish(req.params.id);
     res.json({ message: "La mise à jour effectuée!" });
   } catch (error) {
-     next(new HttpError("Echec de la mise à jour ", 400));
+    next(new HttpError("Echec de la mise à jour ", 400));
   }
-}
+};
 
 // DELETE DISH
 
@@ -151,8 +145,9 @@ const deleteDish = async (req, res, next) => {
 
     res.json({ message: "Le plat à été effacé" });
   } catch (error) {
-      return next(new HttpError("Echec de la suppression", 400));    }
-}
+    return next(new HttpError("Echec de la suppression", 400));
+  }
+};
 
 export default {
   getAllDishes,
@@ -160,5 +155,5 @@ export default {
   getDishesByFilter,
   addDish,
   updateDish,
-  deleteDish
-}
+  deleteDish,
+};
