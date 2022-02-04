@@ -11,7 +11,7 @@ class Dessert {
   }
 
   // find a dessert
-  findDessert(id) {
+  static findDessert(id) {
     return DessertsCollection.findById(id);
   }
 
