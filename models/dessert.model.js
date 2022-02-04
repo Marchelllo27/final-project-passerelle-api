@@ -15,7 +15,7 @@ class Dessert {
     return DessertsCollection.findById(id);
   }
 
-  async findDessertFilter(filter = {}) {
+  static findDessertFilter(filter = {}) {
     return DessertsCollection.find(filter);
   }
 

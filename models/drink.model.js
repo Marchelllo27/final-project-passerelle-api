@@ -18,7 +18,7 @@ class Drink {
     return DrinksCollection.findById(id);
   }
 
-  async findDishtFilter(filter = {}) {
+  static findDrinkFilter(filter = {}) {
     return DrinksCollection.find(filter);
   }
 
