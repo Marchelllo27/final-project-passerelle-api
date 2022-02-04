@@ -59,13 +59,39 @@ const auth = async (req, res, next) => {
   }
 
   // If API key is valid we generate TOKEN
+  let user;
   try {
-     User.findByApiKey(req.headers["x-api-key"], "firstname lastname email role")
+     user = await User.findByApiKey(req.headers["x-api-key"]);
+    if (!user) return next(new HttpError("L'utilisatue n'a pas été trouvé", 400));
   } catch (error) {
-      return next(new HttpError("La demande n'est pas valide.", 400))
+    return next(new HttpError("La demande n'est pas valide.", 400));
   }
 
-  
+
+   // GENERATE TOKEN
+   let token;
+   try {
+     token = jwt.sign(
+       {
+         userId: user.id,
+         email: user.email,
+         role: user.role,
+       },
+       process.env.JWT_SECRET_KEY,
+       { expiresIn: "1h" }
+     );
+   } catch (error) {
+     return next(new HttpError("La génération du token a échoué", 400));
+   }
+ 
+   res.json({
+     userId: user.id,
+     email: user.email,
+     role: user.role,
+     token: token,
+   });
+
+
 };
 
 // LOGIN
@@ -124,5 +150,5 @@ const login = async (req, res, next) => {
 export default {
   login,
   auth,
-  signUp
+  signUp,
 };
