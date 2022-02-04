@@ -1,4 +1,3 @@
-
 import DishesCollection from "../database/dishes.schema";
 class Dish {
   constructor(
@@ -21,20 +20,18 @@ class Dish {
     this.price = price;
   }
 
-  // find a dish
-  findDish(id) {
+  // FIND DISH BY ID
+  static findDishById(id) {
     return DishesCollection.findById(id);
   }
 
-   static findDishFilter(filter = {}) {
+  // FIND DISHES BY FILTER
+
+  static findDishFilter(filter = {}) {
     return DishesCollection.find(filter);
   }
 
-  async findByIdAndDelete(id) {
-    return DishesCollection.findByIdAndDelete(id);
-  }
-
-  //update a dish
+  //UPDATE A DISH
   async upDateDish(id) {
     const dish = await this.findDish(id);
 
@@ -49,7 +46,7 @@ class Dish {
     await dish.save();
   }
 
-  //add a dish
+  //ADD A DISH
   async addDish() {
     await DishesCollection.create({
       name: this.name,
@@ -63,17 +60,21 @@ class Dish {
     });
   }
 
-  //find by name
-  getUDishSameName() {
+  //FIND WITH THE SAME NAME
+  getDishSameName() {
     return DishesCollection.findOne({ name: this.name });
   }
 
-  //dish with name already exists
-
+  //DISH ALREADY EXIST
   async dishExistAlready() {
-    const dishExist = await this.getUDishSameName();
+    const dishExist = await this.getDishSameName();
     if (dishExist) return true;
     if (!dishExist) return false;
+  }
+
+  // DELETE DISH BY ID
+  static deleteDishById(id) {
+    return DishesCollection.findByIdAndDelete(id);
   }
 }
 

@@ -10,7 +10,6 @@ const getAllDishes = async (req, res, next) => {
     const allDishes = await Dish.findDishFilter();
     res.json(allDishes);
   } catch (error) {
-    console.log(error)
         return next(new HttpError("Plats introuvables", 404));
   }
 }
@@ -19,7 +18,10 @@ const getAllDishes = async (req, res, next) => {
 // GET A DISH BY ID 
 const getDishById = async (req, res, next) => {
   try {
-    const foundDish = await Dish.findById(req.params.id);
+    const foundDish = await Dish.findDishById(req.params.id);
+
+    if (!foundDish) return next(new HttpError("Plat n'existe pas", 404))
+
     res.json(foundDish);
   } catch (error) {
      return next(new HttpError("Plat introuvable", 404));
@@ -37,15 +39,24 @@ const getDishById = async (req, res, next) => {
   // get only vegetarian dishes
   if (nutrient === "vegetarian") {
     try {
-      const filteredVeganDishesh = await Dish.findDishtFilter({
+      const filteredVeganDishesh = await Dish.findDishFilter({
         type: "vegetarian",
       });
+
+      if (!filteredVeganDishesh || filteredVeganDishesh.length === 0) {
+        return next(
+          new HttpError(
+            "Malheuresement nous n'avons pas de plat qui correspont à votre besoin 😔 ",
+            404
+          )
+        );
+      }
 
       res.json(filteredVeganDishesh);
     } catch (error) {
         return next(
           new HttpError(
-            "Malheuresement nous n'avons pas de plat qui correspont à votre besoin 😔 ",
+            "Désolé, une erreur s'est produite lors de la recherche!",
             404
           )
         );
@@ -58,7 +69,7 @@ const getDishById = async (req, res, next) => {
 
   //Search dishesh in db by nutrient
   try {
-    const filteredDishesh = await Dish.findDishtFilter({
+    const filteredDishesh = await Dish.findDishFilter({
       nutrients: {
         $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
       },
@@ -66,11 +77,14 @@ const getDishById = async (req, res, next) => {
 
     res.json(filteredDishesh);
   } catch (error) {
-    return next(error);
+    return next( new HttpError(
+      "Désolé, une erreur s'est produite lors de la recherche! ",
+      404
+    ));
   }
 }
 
-// -------------------admin dishes routes----------------------------
+// -------------------ADMIN DISHES ROUTES----------------------------
 
 // ADD DISH
 const addDish = async (req, res, next) => {
@@ -94,21 +108,18 @@ const addDish = async (req, res, next) => {
   try {
     const dishExist=await dish.dishExistAlready();
     if(dishExist){
-      return next(new HttpError("ce plat existe déja ", 422));
+      return next(new HttpError("Сe plat existe déja ", 422));
     }
 
     await dish.addDish();
-    res.status(201).json({ message: "dish add" });
+    res.status(201).json({ message: "Le plat a été bien ajouté" });
   } catch (error) {
-            console.log(error);
-
     return next(new HttpError("Echec de l'ajout", 400));
   }
 }
 
 
 // UPDATE DISH
-
 const updateDish = async (req, res, next) => {
  
 
@@ -134,7 +145,7 @@ const updateDish = async (req, res, next) => {
 
 const deleteDish = async (req, res, next) => {
   try {
-    await Dish.findByIdAndDelete(req.params.id);
+    await Dish.deleteDishById(req.params.id);
 
     res.json({ message: "Le plat à été effacé" });
   } catch (error) {

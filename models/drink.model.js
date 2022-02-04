@@ -13,17 +13,18 @@ class Drink {
     this.price = price;
   }
 
-  //Find a drink
+  //FIND DRINK BY ID
   static findDrink(id) {
     return DrinksCollection.findById(id);
   }
 
+  // FIND DRINK BY FILTER
   static findDrinkFilter(filter = {}) {
     return DrinksCollection.find(filter);
   }
   
-  //Update a drink
-  async upDateDrink(id) {
+  //UPDATE DRINK
+  async updateDrink(id) {
     const drink = await this.findDrink(id);
 
     drink.name = this.name;
@@ -36,7 +37,7 @@ class Drink {
     await drink.save();
   }
 
-  //add a drink
+  //ADD DRINK
   async addDrink() {
     await DrinksCollection.create({
       name: this.name,
@@ -49,21 +50,20 @@ class Drink {
     });
   }
 
-  //find by name
-  getUDrinkSameName() {
+  //FIND WITH THE SAME NAME
+  getDrinkSameName() {
     return DrinksCollection.findOne({ name: this.name });
   }
-  //drink with name already exists
 
+  //DRINK ALREADY EXIST
   async drinkExistAlready() {
-    const drinkExist = await this.getUDrinkSameName();
+    const drinkExist = await this.getDrinkSameName();
     if (drinkExist) return true;
     if (!drinkExist) return false;
   }
 
 
   // DELETE DRINK
-
   static deleteDrinkById(id) {
     return DrinksCollection.findByIdAndDelete(id);
   }

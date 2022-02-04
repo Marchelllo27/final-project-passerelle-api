@@ -10,21 +10,18 @@ class Dessert {
     this.price = price;
   }
 
-  // find a dessert
+  // FIND DESSERT BY ID
   static findDessert(id) {
     return DessertsCollection.findById(id);
   }
 
+  // FIND DESSERTS BY FILTER
   static findDessertFilter(filter = {}) {
     return DessertsCollection.find(filter);
   }
 
-   findByIdAndDelete(id) {
-    return DessertsCollection.findByIdAndDelete(id);
-  }
-
-  //update a dessert
-  async upDateDessert(id) {
+  //UPDATE DESSERT
+  async updateDessert(id) {
     const dish = await this.findDessert(id);
 
     dish.name = this.name;
@@ -37,7 +34,7 @@ class Dessert {
     await dish.save();
   }
 
-  //add a dessert
+  //ADD A DESSERT
   async addDessert() {
     await DessertsCollection.create({
       name: this.name,
@@ -60,6 +57,11 @@ class Dessert {
     if (dessertExist) return true;
     if (!dessertExist) return false;
   }
+
+  static deleteDessert(id) {
+    return DessertsCollection.findByIdAndDelete(id);
+  }
+
 }
 
 export default Dessert;

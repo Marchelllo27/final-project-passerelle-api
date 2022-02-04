@@ -8,18 +8,27 @@ const getAllDesserts = async (req, res, next) => {
   try {
     const allDesserts = await Dessert.findDessertFilter();
 
+    if (!allDesserts || allDesserts.length === 0) {
+      return next(new HttpError("Malheureusement aucun dessert trouvé", 404));
+    }
+
     res.json(allDesserts);
   } catch (error) {
-    return next(new HttpError("Desserts introuvales", 404));
+    return next(new HttpError("Désolé, une erreur s'est produite lors de la recherche!", 404));
   }
 };
 
 const getDessertById = async (req, res, next) => {
   try {
     const foundDessert = await Dessert.findDessert(req.params.id);
+
+    if (!foundDessert || foundDessert.length === 0) {
+      return next(new HttpError("Malheureusement aucun dessert trouvé", 404));
+    }
+
     res.json(foundDessert);
   } catch (error) {
-    return next(new HttpError("Dessert introuvable", 404));
+    return next(new HttpError("Désolé, une erreur s'est produite lors de la recherche!", 404));
   }
 };
 
@@ -32,17 +41,21 @@ const getDessertByFilter = async (req, res, next) => {
 
   //Search dishesh in db by nutrient
   try {
-    const filteredDesserts = await findDessertFilter.find({
+    const filteredDesserts = await Dessert.findDessertFilter.find({
       nutrients: {
         $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
       },
     });
 
+    if (!filteredDesserts || filteredDesserts.length === 0) {
+      return next(new HttpError("Malheuresement nous n'avons pas le dessert qui correspont à votre besoin 😔", 404));
+    }
+
     res.json(filteredDesserts);
   } catch (error) {
     return next(
       new HttpError(
-        "Malheuresement nous n'avons pas le dessert qui correspont à votre besoin 😔 ",
+        "Désolé, une erreur s'est produite lors de la recherche!",
         404
       )
     );
@@ -74,7 +87,7 @@ const addDessert = async (req, res, next) => {
       return next(new HttpError("ce dessert existe déja ", 422));
     }
     await dessert.addDessert();
-    res.status(201).json({ message: "dessert add" });
+    res.status(201).json({ message: "Le dessert a été bien ajouté" });
   } catch (error) {
     return next(new HttpError("Echec de l'ajout", 400));
   }
@@ -83,8 +96,6 @@ const addDessert = async (req, res, next) => {
 // UPDATE
 
 const updateDessert = async (req, res, next) => {
-  console.log("update route is working");
-
   try {
     const dessert = new Dessert(
       req.body.name,
@@ -95,7 +106,7 @@ const updateDessert = async (req, res, next) => {
       req.body.description,
       req.body.price
     );
-    await dessert.upDateDessert(req.params.id);
+    await dessert.updateDessert(req.params.id);
     res.json({ message: "Mise à jour effectuée!" });
   } catch (error) {
     next(new HttpError("Echec de la mise à jour ", 400));
@@ -105,9 +116,9 @@ const updateDessert = async (req, res, next) => {
 // DELETE
 const deleteDessert = async (req, res, next) => {
   try {
-    await Dessert.findByIdAndDelete(req.params.id);
+    await Dessert.deleteDessert(req.params.id);
 
-    res.json({ message: "Le dessert à été mis à jour" });
+    res.json({ message: "Le dessert à été bien supprimé" });
   } catch (error) {
     return next(new HttpError("Echec de la suppression", 400));
   }

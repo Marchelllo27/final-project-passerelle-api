@@ -53,5 +53,3 @@ const UsersSchema = new Schema(
 );
 
 export default mongoose.model("Users", UsersSchema, "users");
-
-//
