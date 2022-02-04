@@ -10,12 +10,12 @@ router.get("/auth-user/orders", ordersControllers.findAllOrders);
 router.get("/auth-user/order/:id", ordersControllers.getOrderById);
 
 //ADD ORDER
-router.post("/orders/orderAdd", ordersControllers.addOrder);
+router.post("/auth-user/order/add", ordersControllers.addOrder);
 
 // UPDATE ORDER
-router.put("/orders/update/:id", ordersControllers.upDateOrder);
+router.put("/auth-user/order/update/:id", ordersControllers.upDateOrder);
 
 // DELETE ORDER
-router.delete("/order/delete/:id", ordersControllers.deleteOrder);
+router.delete("/auth-user/order/delete/:id", ordersControllers.deleteOrder);
 
 export default router;

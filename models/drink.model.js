@@ -19,11 +19,11 @@ class Drink {
   }
 
   async findDishtFilter(filter = {}) {
-    return DishesCollection.find(filter);
+    return DrinksCollection.find(filter);
   }
 
   async findByIdAndDelete(id) {
-    return DishesCollection.findByIdAndDelete(id);
+    return DrinksCollection.findByIdAndDelete(id);
   }
   
   //Update a drink

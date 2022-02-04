@@ -39,6 +39,9 @@ app.use(express.json());
 app.use(cors);
 
 //ROUTES FOR ALL
+app.get("/", (req, res) => {
+  res.json({message: "Bienvenue sur notre API. made by Gou Bio team."})
+})
 app.use(authRoutes);
 app.use(dishesRoutes);
 app.use(dessertsRoutes);

@@ -45,7 +45,7 @@ const upDateOrder = async (req, res, next) => {
     const user = await User.findUserById(req.userData.userId);
 
     const order = new Order(products, user, req.body.totalPrice);
-    await order.updateOrder(req.params.id);
+    await order.updateOrderByAdmin(req.params.id);
 
     res.json({ message: "Mise à jour de la commande a été bien effectuée!" });
   } catch (error) {
@@ -57,7 +57,7 @@ const upDateOrder = async (req, res, next) => {
 //Delete Order
 const deleteOrder = async (req, res, next) => {
   try {
-    await Order.deleteOrderById(req.params.id);
+    await Order.deleteOrderByAdmin(req.params.id);
     res.json({ message: "La commande effacée" });
   } catch {
     return next(new HttpError("Echec de la suppression", 400));
