@@ -2,9 +2,6 @@ import HttpError from "../models/http-error";
 
 import Order from "../models/order.model";
 import User from "../models/user.model";
-import mongoose from "mongoose";
-
-const ObjectId = mongoose.Types.ObjectId;
 
 // FIND ALL AUTH USER ORDERS
 

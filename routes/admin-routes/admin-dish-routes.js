@@ -3,6 +3,8 @@ import { Router } from "express";
 import { body } from "express-validator";
 
 import dishesControllers from "../../controllers/dishes-controllers";
+import uploadFileMiddleware from "../../middlewares/file-upload";
+
 
 const router = Router();
 
@@ -34,6 +36,7 @@ const router = Router();
 //ADD DISH
 router.post(
   "/products/dish/add",
+  uploadFileMiddleware,
   body("name").trim().notEmpty().withMessage("le nom ne doit pas être vide !"),
   //body("ingredients").notEmpty(),
   //body("nutrients").notEmpty(),

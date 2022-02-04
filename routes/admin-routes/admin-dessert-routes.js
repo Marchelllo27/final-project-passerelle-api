@@ -2,6 +2,7 @@ import { Router } from "express";
 import { body } from "express-validator";
 
 import dessertsControllers from "../../controllers/desserts-controllers";
+import uploadFileMiddleware from "../../middlewares/file-upload";
 
 const router = Router();
 
@@ -35,6 +36,7 @@ const router = Router();
 //ADD DESSERT
 router.post(
   "/products/dessert/add",
+  uploadFileMiddleware,
   body("name").trim().notEmpty().withMessage("le nom ne doit pas être vide !"),
   //body("ingredients").notEmpty(),
   //body("nutrients").notEmpty(),
