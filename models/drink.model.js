@@ -18,7 +18,7 @@ class Drink {
     return DrinksCollection.findById(id);
   }
 
-   static findDrinkFilter(filter = {}) {
+  static findDrinkFilter(filter = {}) {
     return DrinksCollection.find(filter);
   }
   

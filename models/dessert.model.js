@@ -11,11 +11,11 @@ class Dessert {
   }
 
   // find a dessert
-  findDessert(id) {
+  static findDessert(id) {
     return DessertsCollection.findById(id);
   }
 
-  static  findDessertFilter(filter = {}) {
+  static findDessertFilter(filter = {}) {
     return DessertsCollection.find(filter);
   }
 

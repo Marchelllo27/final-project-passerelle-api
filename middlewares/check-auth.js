@@ -4,6 +4,9 @@ import HttpError from "../models/http-error";
 
 dotenv.config();
 
+ 
+
+
 const checkAuth = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1] || null;
