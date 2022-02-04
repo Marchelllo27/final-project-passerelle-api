@@ -63,7 +63,7 @@ const addDrink = async (req, res, next) => {
     req.body.name,
     req.body.ingredients,
     req.body.nutrients,
-    req.body.image,
+    req.file.path,
     req.body.weight,
     req.body.description,
     req.body.price
@@ -109,7 +109,7 @@ const updateDrink = async (req, res, next) => {
 
 const deleteDrink = async (req, res, next) => {
   try {
-    await Drink.findByIdAndDelete(req.params.id);
+    await Drink.deleteDrinkById(req.params.id);
 
     res.json({ message: "Le jus à été effacé" });
   } catch (error) {

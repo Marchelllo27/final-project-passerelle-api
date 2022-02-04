@@ -14,16 +14,12 @@ class Drink {
   }
 
   //Find a drink
-  findDrink(id) {
+  static findDrink(id) {
     return DrinksCollection.findById(id);
   }
 
-  async findDishtFilter(filter = {}) {
+   static findDrinkFilter(filter = {}) {
     return DrinksCollection.find(filter);
-  }
-
-  async findByIdAndDelete(id) {
-    return DrinksCollection.findByIdAndDelete(id);
   }
   
   //Update a drink
@@ -63,6 +59,13 @@ class Drink {
     const drinkExist = await this.getUDrinkSameName();
     if (drinkExist) return true;
     if (!drinkExist) return false;
+  }
+
+
+  // DELETE DRINK
+
+  static deleteDrinkById(id) {
+    return DrinksCollection.findByIdAndDelete(id);
   }
   
 }

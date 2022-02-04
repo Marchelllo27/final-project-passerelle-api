@@ -19,9 +19,6 @@ const getAllDishes = async (req, res, next) => {
 // GET A DISH BY ID 
 const getDishById = async (req, res, next) => {
   try {
-    // const id = ObjectId(req.params.id);
-    // const foundDish = await DishesCollection.findOne({ _id: id });
-    //good solution for to lines above(marc)
     const foundDish = await Dish.findById(req.params.id);
     res.json(foundDish);
   } catch (error) {
@@ -88,7 +85,7 @@ const addDish = async (req, res, next) => {
     req.body.name,
     req.body.ingredients,
     req.body.nutrients,
-    req.body.image,
+    req.file.path,
     req.body.weight,
     req.body.description,
     req.body.type,

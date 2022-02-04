@@ -63,7 +63,7 @@ const addDessert = async (req, res, next) => {
     req.body.name,
     req.body.ingredients,
     req.body.nutrients,
-    req.body.image,
+    req.file.path,
     req.body.weight,
     req.body.description,
     req.body.price
