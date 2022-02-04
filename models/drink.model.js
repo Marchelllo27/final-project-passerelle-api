@@ -1,5 +1,3 @@
-import bcrypt from "bcrypt";
-
 import DrinksCollection from "../database/drinks.schema";
 
 class Drink {

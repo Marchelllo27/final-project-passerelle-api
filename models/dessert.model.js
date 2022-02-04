@@ -1,3 +1,5 @@
+import * as fs from "fs"
+
 import DessertsCollection from "../database/desserts.schema";
 class Dessert {
   constructor(name, ingredients, nutrients, image, weight, description, price) {
@@ -47,18 +49,23 @@ class Dessert {
     });
   }
   //find by name
-  getUDessertSameName() {
+  getDessertSameName() {
     return DessertsCollection.findOne({ name: this.name });
   }
   //dessert with name already exists
 
   async dessertExistAlready() {
-    const dessertExist = await this.getUDessertSameName();
+    const dessertExist = await this.getDessertSameName();
     if (dessertExist) return true;
     if (!dessertExist) return false;
   }
 
   static deleteDessert(id) {
+    const dessert = Dessert.findDessert(id);
+
+    const imageName = dessert.image;
+    fs.unlink(imageName, err => console.log(err));
+    
     return DessertsCollection.findByIdAndDelete(id);
   }
 

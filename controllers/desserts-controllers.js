@@ -66,7 +66,6 @@ const getDessertByFilter = async (req, res, next) => {
 
 // ADD
 const addDessert = async (req, res, next) => {
-  console.log("add route is working");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
@@ -76,7 +75,8 @@ const addDessert = async (req, res, next) => {
     req.body.name,
     req.body.ingredients,
     req.body.nutrients,
-    req.file.path,
+    req.body.image,
+    // req.file.path,
     req.body.weight,
     req.body.description,
     req.body.price
@@ -102,6 +102,7 @@ const updateDessert = async (req, res, next) => {
       req.body.ingredients,
       req.body.nutrients,
       req.body.image,
+      // req.file.path,
       req.body.weight,
       req.body.description,
       req.body.price

@@ -18,7 +18,7 @@ const fileUpload = multer({
       // extract extension of the image from mimetype
       const extension = MIME_TYPE_MAP[file.mimetype];
       // generate unique filename with right extension
-      callback(null, uuid() + "." + extension);
+      callback(null, `${file.originalname}-${uuid()}.${extension}`);
     }
   }),
   fileFilter: (req, file, callback) => {
@@ -31,6 +31,6 @@ const fileUpload = multer({
 });
 
 
+const configuredUploadFileMiddleware = fileUpload.single('image');
 
-
-export default fileUpload;
+export default configuredUploadFileMiddleware;

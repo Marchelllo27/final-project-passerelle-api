@@ -2,17 +2,17 @@ import { Router } from "express";
 import { body } from "express-validator";
 
 import drinksControllers from "../../controllers/drinks-controllers";
-import fileUpload from "../../middlewares/file-upload";
+import uploadFileMiddleware from "../../middlewares/file-upload";
 
 const router = Router();
 
 //ADD DRINK
 router.post(
   "/products/drink/add",
-  fileUpload.single("image"),
+  uploadFileMiddleware,
   body("name").trim().notEmpty().withMessage("le nom ne doit pas être vide !"),
-  //body("ingredients").notEmpty(),
-  //body("nutrients").notEmpty(),
+  // body("ingredients").notEmpty(),
+  // body("nutrients").notEmpty(),
   body("image").trim().notEmpty(),
   body("weight", "doit être numérique")
     .trim()
