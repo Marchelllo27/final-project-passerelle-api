@@ -6,7 +6,6 @@ const expect = chai.expect;
 // GET PRODUCTS
 
 describe("TEST DISHES ROUTES", async () => {
-
   it("get all dishes", async () => {
     await chai
       .request(process.env.URL_TEST_API)

@@ -4,6 +4,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe("Authentication API Key", async () => {
+
   // quand la clef existe
   it("with valid API key", async () => {
     await chai
@@ -12,7 +13,7 @@ describe("Authentication API Key", async () => {
       .set("x-api-key", process.env.API_KEY_USER)
       .send()
       .then(res => {
-        if(typeof res.body.token !== 'undefined') {
+        if (typeof res.body.token !== "undefined") {
           process.env.TOKEN = res.body.token;
         }
         expect(res).to.have.status(200);
@@ -45,23 +46,3 @@ describe("Authentication API Key", async () => {
       });
   });
 });
-
-
-
-// await chai
-//     .request(process.env.URL_TEST_API)
-//     .get("/auth")
-//     .set("x-api-key", process.env.API_KEY_ADMIN)
-//     .send()
-//     .then(res => {
-//       process.env.ADMIN_TOKEN = res.body.token;
-//     });
-
-//   await chai
-//     .request(process.env.URL_TEST_API)
-//     .get("/auth")
-//     .set("x-api-key", process.env.API_KEY_USER)
-//     .send()
-//     .then(res => {
-//       process.env.USER_TOKEN = res.body.token;
-//     });
