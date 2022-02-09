@@ -7,9 +7,13 @@ import Drink from "../models/drink.model";
 const getAllDrinks = async (req, res, next) => {
   try {
     const allDrinks = await Drink.findDrinkFilter();
+
+    if (!allDrinks || allDrinks.length === 0) {
+      return next(new HttpError("Malheureusement, aucune boisson trouvée", 404));
+    }
     res.json(allDrinks);
   } catch (error) {
-    return next(new HttpError("Boissons introuvales", 404));
+    return next(new HttpError("Une erreur s'est produite lors de la recherche de boissons", 404));
   }
 };
 
@@ -17,9 +21,13 @@ const getDrinkById = async (req, res, next) => {
   try {
     const foundDrink = await Drink.findDrink(req.params.id);
 
+    if (!foundDrink) {
+      return next(new HttpError("Malheureusement, aucune boisson trouvée", 404));
+    } 
+
     res.json(foundDrink);
   } catch (error) {
-    return next(new HttpError("Boisson introuvable", 404));
+    return next(new HttpError("Une erreur s'est produite lors de la recherche de boissons", 404));
   }
 };
 
@@ -38,11 +46,15 @@ const getDrinkByFilter = async (req, res, next) => {
       },
     });
 
+    if (!filteredDrinks || filteredDrinks.length === 0) {
+      return next(new HttpError("Malheuresement nous n'avons pas de boisson qui correspont à votre besoin 😔", 404));
+    }
+
     res.json(filteredDrinks);
   } catch (error) {
     return next(
       new HttpError(
-        "Malheuresement nous n'avons pas de boisson qui correspont à votre besoin 😔 ",
+        "Une erreur s'est produite lors de la recherche de boissons",
         404
       )
     );
@@ -64,6 +76,7 @@ const addDrink = async (req, res, next) => {
     req.body.ingredients,
     req.body.nutrients,
     req.body.image,
+    // req.file.path,
     req.body.weight,
     req.body.description,
     req.body.price
@@ -71,37 +84,33 @@ const addDrink = async (req, res, next) => {
   try {
     const drinkExist = await drink.drinkExistAlready();
     if (drinkExist) {
-      return next(new HttpError("cette boisson existe déja ", 422));
+      return next(new HttpError("Cette boisson existe déja", 422));
     }
 
     await drink.addDrink();
-    res.status(201).json({ message: "drink add" });
+    return res.status(201).json({ message: "La boisson a été bien ajouté" });
   } catch (error) {
-    console.log(error);
     return next(new HttpError("Echec de l'ajout", 400));
   }
 };
 
 // UPDATE
-
 const updateDrink = async (req, res, next) => {
-  console.log("update route is working");
-  console.log(req.userData);
-
   try {
     const drink = new Drink(
       req.body.name,
       req.body.ingredients,
       req.body.nutrients,
       req.body.image,
+    // req.file.path,
       req.body.weight,
       req.body.description,
       req.body.price
     );
-    await drink.upDateDrink(req.params.id);
-    res.json({ message: "Mise à jour effectuée!" });
+    await drink.updateDrink(req.params.id);
+    return res.json({ message: "Mise à jour effectuée!" });
   } catch (error) {
-    next(new HttpError("Echec de la mise à jour ", 400));
+    return next(new HttpError("Echec de la mise à jour ", 400));
   }
 };
 
@@ -109,9 +118,9 @@ const updateDrink = async (req, res, next) => {
 
 const deleteDrink = async (req, res, next) => {
   try {
-    await Drink.findByIdAndDelete(req.params.id);
+    await Drink.deleteDrinkById(req.params.id);
 
-    res.json({ message: "Le jus à été effacé" });
+    res.json({ message: "La boisson à été effacée" });
   } catch (error) {
     return next(new HttpError("Echec de la suppression", 400));
   }

@@ -2,9 +2,6 @@ import HttpError from "../models/http-error";
 
 import Order from "../models/order.model";
 import User from "../models/user.model";
-import mongoose from "mongoose";
-
-const ObjectId = mongoose.Types.ObjectId;
 
 // FIND ALL AUTH USER ORDERS
 
@@ -19,7 +16,7 @@ const findAllOrders = async (req, res, next) => {
     return res.json(orders);
   } catch (error) {
     next(
-      new HttpError("Malheureusement, impossible de trouver les commandes", 404)
+      new HttpError("Malheureusement, impossible de trouver vos commandes", 404)
     );
   }
 };
@@ -64,7 +61,7 @@ const upDateOrder = async (req, res, next) => {
 
     await order.updateOrder(req.params.id, req.userData.userId);
 
-    res.json({ message: "Mise à jour de la commande a été bien effectuée!" });
+    res.json({ message: "La mise à jour de la commande a été bien effectuée!" });
   } catch (error) {
     return next(new HttpError("Echec de la mise à jour", 400));
   }
@@ -74,7 +71,7 @@ const upDateOrder = async (req, res, next) => {
 const deleteOrder = async (req, res, next) => {
   try {
     await Order.deleteOrderById(req.params.id, req.userData.userId);
-    res.json({ message: "La commande effacée" });
+    res.json({ message: "La commande a bien été effacée" });
   } catch {
     return next(new HttpError("Echec de la suppression", 400));
   }
