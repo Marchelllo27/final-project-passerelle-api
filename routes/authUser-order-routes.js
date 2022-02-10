@@ -86,7 +86,7 @@ const router = Router();
  */
 
 // GET ALL ORDERS (AUTH USER)
-router.get("/auth-user/orders", ordersControllers.findAllOrders);
+router.get("/orders", ordersControllers.findAllOrders);
 
 
 /**
@@ -137,7 +137,7 @@ router.get("/auth-user/orders", ordersControllers.findAllOrders);
  */
 
 // Get order by Id
-router.get("/auth-user/order/:id", ordersControllers.getOrderById);
+router.get("/order/:id", ordersControllers.getOrderById);
 
 
 /**
@@ -160,7 +160,7 @@ router.get("/auth-user/order/:id", ordersControllers.getOrderById);
  */
 
 //ADD ORDER
-router.post("/auth-user/order/add", ordersControllers.addOrder);
+router.post("/order/add", ordersControllers.addOrder);
 
 /**
  * @api {put} /auth-user/order/update/:id UpDate Order 
@@ -182,30 +182,8 @@ router.post("/auth-user/order/add", ordersControllers.addOrder);
  */
 
 // UPDATE ORDER
-router.put("/auth-user/order/update/:id", ordersControllers.upDateOrder);
+router.put("/order/update/:id", ordersControllers.upDateOrder);
 
-
-/**
- * @api {post} /auth-user/order/add Add Order 
- * @apiName PostOrder
- * @apiGroup Orders-Auth-User
- *
- 
- * @apiSuccess {String} Post Add an order by an authenticate User.
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *{ "message": "La commande a été bien ajoutée" }
- * 
- * @apiError Bad Request Error HTTP 400 . 
- * 
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request 
- *     { message: "Échec de l'ajout la commande" }
- */
-
-//ADD ORDER
-router.post("/auth-user/order/add", ordersControllers.addOrder);
 
 /**
  * @api {delete} /auth-user/order/delete/:id Delete Order 
@@ -227,6 +205,6 @@ router.post("/auth-user/order/add", ordersControllers.addOrder);
  */
 
 // DELETE ORDER
-router.delete("/auth-user/order/delete/:id", ordersControllers.deleteOrder);
+router.delete("/order/delete/:id", ordersControllers.deleteOrder);
 
 export default router;
