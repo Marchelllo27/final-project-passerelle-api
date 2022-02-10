@@ -37,7 +37,7 @@ const getDishesByFilter = async (req, res, next) => {
   const valueForNutriment = getNutrientComparisonValue(nutrient, "dishes");
 
   let filter;
-  switch (nutrient) {
+  switch (nutrient.trim()) {
     case "vegetarian":
       filter = {
         type: "vegetarian",
@@ -77,24 +77,6 @@ const getDishesByFilter = async (req, res, next) => {
       )
     );
   }
-
-  //Search dishesh in db by nutrient
-  // try {
-  //   const filteredDishesh = await Dish.findDishFilter({
-  //     nutrients: {
-  //       $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
-  //     },
-  //   });
-
-  //   res.json(filteredDishesh);
-  // } catch (error) {
-  //   return next(
-  //     new HttpError(
-  //       "Désolé, une erreur s'est produite lors de la recherche! ",
-  //       404
-  //     )
-  //   );
-  // }
 };
 
 // -------------------ADMIN DISHES ROUTES----------------------------
