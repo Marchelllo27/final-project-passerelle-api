@@ -18,8 +18,8 @@ import authUserRoutes from "./routes/auth-user-routes";
 import adminOrdersRoutes from "./routes/admin-routes/admin-order-routes";
 
 //import middlewares
-import checkAuth from "./middlewares/check-auth";
 import checkIsAdmin from "./middlewares/check-is-admin";
+import checkAuth from "./middlewares/check-auth";
 import cors from "./middlewares/cors";
 
 const app = express();
@@ -52,22 +52,22 @@ app.use(dessertsRoutes);
 app.use(drinksRoutes);
 
 // ROUTES FOR AUTHENTICATED USERS
-app.use(checkAuth);
-app.use(authUserRoutes);
-app.use(authUserOrderRoutes);
+app.use("/auth-user",checkAuth)
+app.use("/auth-user", authUserRoutes);
+app.use("/auth-user", authUserOrderRoutes);
 
 // ADMIN ROUTES
-app.use(checkIsAdmin);
-app.use(adminUsersRoutes);
-app.use(adminDishRoutes);
-app.use(adminDessertsRoutes);
-app.use(adminDrinksRoutes);
-app.use(adminOrdersRoutes);
+app.use("/admin",checkIsAdmin)
+app.use("/admin", adminUsersRoutes);
+app.use("/admin", adminDishRoutes);
+app.use("/admin", adminDessertsRoutes);
+app.use("/admin", adminDrinksRoutes);
+app.use("/admin", adminOrdersRoutes);
 
 //ERROR HANDLING MIDDLEWARES
 app.use(function (req, res) {
   res
-    .status(error.code || 404)
+    .status(404)
     .json({ message: "Malheureusement ressource introuvable" });
 });
 
@@ -90,6 +90,4 @@ app.listen(process.env.PORT || 3200, () => {
   console.log(`The server is running on port ${process.env.PORT}`);
 });
 
-
 export default app;
-

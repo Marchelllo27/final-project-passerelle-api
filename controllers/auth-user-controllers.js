@@ -11,14 +11,25 @@ const updateUser = async (req, res, next) => {
     return res.status(422).json({ errors: errors.array() });
   }
 
-
   if (req.userData) {
     try {
       await User.findUserById(req.userData.userId);
     } catch (error) {
-      return next(new HttpError("Malheureusement, nous ne pouvons pas trouver l'utilisateur", 404));
+      return next(
+        new HttpError(
+          "Malheureusement, nous ne pouvons pas trouver l'utilisateur",
+          404
+        )
+      );
     }
-  } else { return next(new HttpError("Malheureusement, quelque chose s'est mal passé sur le server", 500))}
+  } else {
+    return next(
+      new HttpError(
+        "Malheureusement, quelque chose s'est mal passé sur le server",
+        500
+      )
+    );
+  }
 
   const user = new User(
     req.body.email,
@@ -42,10 +53,14 @@ const updateUser = async (req, res, next) => {
 // DELETE USER
 const deleteUser = async (req, res, next) => {
   try {
+    const userExist = await User.findUserById(req.userData.userId);
+
+    if (!userExist)
+      return next(new HttpError("L'utilisateur n'existe pas", 400));
+
     await User.deleteUser(req.userData.userId);
     return res.json({ message: "L'utilisateur a été bien supprimé" });
   } catch (error) {
-    console.log(error)
     return next(
       new HttpError("Échec, l'utilisateur n'a pas été supprimé", 400)
     );
