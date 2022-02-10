@@ -33,54 +33,68 @@ const getDishesByFilter = async (req, res, next) => {
   //get filters from query (.../...?filters)
   const nutrient = req.query.filters[0];
 
-  // get only vegetarian dishes
-  if (nutrient === "vegetarian") {
-    try {
-      const filteredVeganDishesh = await Dish.findDishFilter({
+  //get average nutrient value for dishes
+  const valueForNutriment = getNutrientComparisonValue(nutrient, "dishes");
+
+  let filter;
+  switch (nutrient) {
+    case "vegetarian":
+      filter = {
         type: "vegetarian",
-      });
+      };
+      break;
+    case "":
+      filter = {};
+      break;
+    default:
+      filter = {
+        nutrients: {
+          $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
+        },
+      };
+  }
 
-      if (!filteredVeganDishesh || filteredVeganDishesh.length === 0) {
-        return next(
-          new HttpError(
-            "Malheuresement nous n'avons pas de plats qui correspondent à votre besoin 😔 ",
-            404
-          )
-        );
-      }
+  // get only vegetarian dishes
 
-      res.json(filteredVeganDishesh);
-    } catch (error) {
+  try {
+    const filteredDishes = await Dish.findDishFilter(filter);
+
+    if (!filteredDishes || filteredDishes.length === 0) {
       return next(
         new HttpError(
-          "Désolé, une erreur s'est produite lors de la recherche!",
+          "Malheuresement nous n'avons pas de plats qui correspondent à votre besoin 😔 ",
           404
         )
       );
     }
-    return;
-  }
 
-  //get average nutrient value for dishes
-  const valueForNutriment = getNutrientComparisonValue(nutrient, "dishes");
-
-  //Search dishesh in db by nutrient
-  try {
-    const filteredDishesh = await Dish.findDishFilter({
-      nutrients: {
-        $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
-      },
-    });
-
-    res.json(filteredDishesh);
+    res.json(filteredDishes);
   } catch (error) {
     return next(
       new HttpError(
-        "Désolé, une erreur s'est produite lors de la recherche! ",
+        "Désolé, une erreur s'est produite lors de la recherche!",
         404
       )
     );
   }
+
+  //Search dishesh in db by nutrient
+  // try {
+  //   const filteredDishesh = await Dish.findDishFilter({
+  //     nutrients: {
+  //       $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
+  //     },
+  //   });
+
+  //   res.json(filteredDishesh);
+  // } catch (error) {
+  //   return next(
+  //     new HttpError(
+  //       "Désolé, une erreur s'est produite lors de la recherche! ",
+  //       404
+  //     )
+  //   );
+  // }
 };
 
 // -------------------ADMIN DISHES ROUTES----------------------------
