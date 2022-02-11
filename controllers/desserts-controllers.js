@@ -76,7 +76,6 @@ const getDessertByFilter = async (req, res, next) => {
 
     res.json(filteredDesserts);
   } catch (error) {
-    console.log(error)
     return next(
       new HttpError(
         "Malheuresement nous n'avons pas de desserts qui correspondent à votre besoin 😔 ",
