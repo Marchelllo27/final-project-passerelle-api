@@ -54,8 +54,6 @@ const getDishesByFilter = async (req, res, next) => {
       };
   }
 
-  // get only vegetarian dishes
-
   try {
     const filteredDishes = await Dish.findDishFilter(filter);
 
