@@ -62,9 +62,10 @@ const getDessertByFilter = async (req, res, next) => {
 
   //Search dishesh in db by nutrient
   try {
-    const filteredDesserts = await Dessert.findDessertFilter.find(filter);
+    const filteredDesserts = await Dessert.findDessertFilter(filter);
 
     if (!filteredDesserts || filteredDesserts.length === 0) {
+      
       return next(
         new HttpError(
           "Malheuresement nous n'avons pas le dessert qui correspont à votre besoin 😔",
@@ -75,6 +76,7 @@ const getDessertByFilter = async (req, res, next) => {
 
     res.json(filteredDesserts);
   } catch (error) {
+    console.log(error)
     return next(
       new HttpError(
         "Malheuresement nous n'avons pas de desserts qui correspondent à votre besoin 😔 ",
