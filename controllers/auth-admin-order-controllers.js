@@ -26,7 +26,6 @@ const addOrder = async (req, res, next) => {
   const products = [{ name: "jus", price: 4, quantity: 5 }];
   try {
     const user = await User.findUserById(req.userData.userId);
-    console.log(user);
     //création de l'objet order
     const order = new Order(products, user, req.body.totalPrice);
     //envoie de l'objet créer a la bdd
@@ -49,7 +48,6 @@ const upDateOrder = async (req, res, next) => {
 
     res.json({ message: "La mise à jour de la commande a été bien effectuée!" });
   } catch (error) {
-    console.log(error);
     return next(new HttpError("Echec de la mise à jour", 400));
   }
 };
