@@ -141,10 +141,13 @@ const deleteDessert = async (req, res, next) => {
   try {
     const dessert = await Dessert.deleteDessert(req.params.id);
 
-    if (!dessert) throw new Error("Echec de la suppression");
+    if (!dessert) {
+      throw new Error("Echec de la suppression");
+    }
 
     res.json({ message: "Le dessert à été éffacé" });
   } catch (error) {
+    console.log(error)
     return next(new HttpError("Echec de la suppression", 400));
   }
 };

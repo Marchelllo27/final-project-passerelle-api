@@ -60,8 +60,8 @@ class Dessert {
     if (!dessertExist) return false;
   }
 
-  static deleteDessert(id) {
-    const dessert = Dessert.findDessert(id);
+  static async deleteDessert(id) {
+    const dessert = await Dessert.findDessert(id);
 
     const imageName = dessert.image;
     fs.unlink(imageName, err => console.log(err));
