@@ -65,7 +65,6 @@ const getDessertByFilter = async (req, res, next) => {
     const filteredDesserts = await Dessert.findDessertFilter(filter);
 
     if (!filteredDesserts || filteredDesserts.length === 0) {
-      
       return next(
         new HttpError(
           "Malheuresement nous n'avons pas le dessert qui correspont à votre besoin 😔",
@@ -140,7 +139,9 @@ const updateDessert = async (req, res, next) => {
 // DELETE
 const deleteDessert = async (req, res, next) => {
   try {
-    await Dessert.deleteDessert(req.params.id);
+    const dessert = await Dessert.deleteDessert(req.params.id);
+
+    if (!dessert) throw new Error("Echec de la suppression");
 
     res.json({ message: "Le dessert à été éffacé" });
   } catch (error) {

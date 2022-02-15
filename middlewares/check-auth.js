@@ -10,7 +10,7 @@ dotenv.config();
 const checkAuth = (req, res, next) => {
   // browser behavior, he sends options request before he sends actual POST for example request
   // for avoid error we can use this piece of code
-  // if (req.method === "OPTIONS") return next();
+  if (req.method === "OPTIONS") return next();
 
   try {
     const token = req.headers.authorization.split(" ")[1] || null;
