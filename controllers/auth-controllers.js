@@ -61,8 +61,9 @@ const auth = async (req, res, next) => {
   // If API key is valid we generate TOKEN
   let user;
   try {
+    console.log(req.headers["x-api-key"])
      user = await User.findByApiKey(req.headers["x-api-key"]);
-    if (!user) return next(new HttpError("L'utilisatue n'a pas été trouvé", 400));
+    if (!user) return next(new HttpError("L'utilisateur n'a pas été trouvé", 400));
   } catch (error) {
     return next(new HttpError("La demande n'est pas valide.", 400));
   }

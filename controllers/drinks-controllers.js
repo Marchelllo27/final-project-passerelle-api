@@ -9,11 +9,18 @@ const getAllDrinks = async (req, res, next) => {
     const allDrinks = await Drink.findDrinkFilter();
 
     if (!allDrinks || allDrinks.length === 0) {
-      return next(new HttpError("Malheureusement, aucune boisson trouvée", 404));
+      return next(
+        new HttpError("Malheureusement, aucune boisson trouvée", 404)
+      );
     }
     res.json(allDrinks);
   } catch (error) {
-    return next(new HttpError("Une erreur s'est produite lors de la recherche de boissons", 404));
+    return next(
+      new HttpError(
+        "Une erreur s'est produite lors de la recherche de boissons",
+        404
+      )
+    );
   }
 };
 
@@ -22,12 +29,19 @@ const getDrinkById = async (req, res, next) => {
     const foundDrink = await Drink.findDrink(req.params.id);
 
     if (!foundDrink) {
-      return next(new HttpError("Malheureusement, aucune boisson trouvée", 404));
-    } 
+      return next(
+        new HttpError("Malheureusement, aucune boisson trouvée", 404)
+      );
+    }
 
     res.json(foundDrink);
   } catch (error) {
-    return next(new HttpError("Une erreur s'est produite lors de la recherche de boissons", 404));
+    return next(
+      new HttpError(
+        "Une erreur s'est produite lors de la recherche de boissons",
+        404
+      )
+    );
   }
 };
 
@@ -38,16 +52,28 @@ const getDrinkByFilter = async (req, res, next) => {
   //get average nutrient value for drinks
   const valueForNutriment = getNutrientComparisonValue(nutrient, "drinks");
 
-  //Search dishesh in db by nutrient
-  try {
-    const filteredDrinks = await Drink.findDrinkFilter({
+  let filter;
+  if (nutrient.trim() === "") {
+    filter = {};
+  } else {
+    filter = {
       nutrients: {
         $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
       },
-    });
+    };
+  }
+
+  //Search dishesh in db by nutrient
+  try {
+    const filteredDrinks = await Drink.findDrinkFilter(filter);
 
     if (!filteredDrinks || filteredDrinks.length === 0) {
-      return next(new HttpError("Malheuresement nous n'avons pas de boisson qui correspont à votre besoin 😔", 404));
+      return next(
+        new HttpError(
+          "Malheuresement nous n'avons pas de boisson qui correspont à votre besoin 😔",
+          404
+        )
+      );
     }
 
     res.json(filteredDrinks);
@@ -66,7 +92,6 @@ const getDrinkByFilter = async (req, res, next) => {
 // ADD
 
 const addDrink = async (req, res, next) => {
-
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() });
@@ -102,7 +127,7 @@ const updateDrink = async (req, res, next) => {
       req.body.ingredients,
       req.body.nutrients,
       req.body.image,
-    // req.file.path,
+      // req.file.path,
       req.body.weight,
       req.body.description,
       req.body.price

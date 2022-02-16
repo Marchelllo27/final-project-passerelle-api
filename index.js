@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import * as fs from "fs";
 import path from "path";
+import cors from "cors";
 
 //import routes
 import dishesRoutes from "./routes/products-routes/dishes-routes";
@@ -18,9 +19,9 @@ import authUserRoutes from "./routes/auth-user-routes";
 import adminOrdersRoutes from "./routes/admin-routes/admin-order-routes";
 
 //import middlewares
-import checkAuth from "./middlewares/check-auth";
 import checkIsAdmin from "./middlewares/check-is-admin";
-import cors from "./middlewares/cors";
+import checkAuth from "./middlewares/check-auth";
+// import cors from "./middlewares/cors";
 
 const app = express();
 dotenv.config({
@@ -37,10 +38,12 @@ mongoose
     console.log(err);
   });
 
+app.use(cors());
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/uploads/images", express.static(path.join("uploads", "images")));
-app.use(cors);
+// app.use(cors);
 
 //ROUTES FOR ALL
 app.get("/", (req, res) => {
@@ -52,23 +55,21 @@ app.use(dessertsRoutes);
 app.use(drinksRoutes);
 
 // ROUTES FOR AUTHENTICATED USERS
-app.use(checkAuth);
-app.use(authUserRoutes);
-app.use(authUserOrderRoutes);
+app.use("/auth-user", checkAuth);
+app.use("/auth-user", authUserRoutes);
+app.use("/auth-user", authUserOrderRoutes);
 
 // ADMIN ROUTES
-app.use(checkIsAdmin);
-app.use(adminUsersRoutes);
-app.use(adminDishRoutes);
-app.use(adminDessertsRoutes);
-app.use(adminDrinksRoutes);
-app.use(adminOrdersRoutes);
+app.use("/admin", checkIsAdmin);
+app.use("/admin", adminUsersRoutes);
+app.use("/admin", adminDishRoutes);
+app.use("/admin", adminDessertsRoutes);
+app.use("/admin", adminDrinksRoutes);
+app.use("/admin", adminOrdersRoutes);
 
 //ERROR HANDLING MIDDLEWARES
 app.use(function (req, res) {
-  res
-    .status(error.code || 404)
-    .json({ message: "Malheureusement ressource introuvable" });
+  res.status(404).json({ message: "Malheureusement ressource introuvable" });
 });
 
 app.use(function (error, req, res, next) {
@@ -90,6 +91,4 @@ app.listen(process.env.PORT || 3200, () => {
   console.log(`The server is running on port ${process.env.PORT}`);
 });
 
-
 export default app;
-

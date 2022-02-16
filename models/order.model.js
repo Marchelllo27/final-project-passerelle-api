@@ -37,7 +37,6 @@ class Order {
         await order.save();
       return;
     } else {
-      console.log("la");
       throw new Error("Echec de la mise à jour");
     }
   }

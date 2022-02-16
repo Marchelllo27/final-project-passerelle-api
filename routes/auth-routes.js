@@ -80,7 +80,7 @@ router.post(
     .notEmpty()
     .isNumeric()
     .withMessage("Code Postal doit être numérique")
-    .isLength({ max: 5 })
+    .isLength({ min: 5, max: 5 })
     .withMessage("Doit comporter au maximum 5 chiffres"),
   check("city", "La ville invalide").trim().notEmpty(),
   authControllers.signUp

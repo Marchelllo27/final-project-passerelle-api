@@ -14,7 +14,12 @@ const getAllDesserts = async (req, res, next) => {
 
     res.json(allDesserts);
   } catch (error) {
-    return next(new HttpError("Désolé, une erreur s'est produite lors de la recherche!", 404));
+    return next(
+      new HttpError(
+        "Désolé, une erreur s'est produite lors de la recherche!",
+        404
+      )
+    );
   }
 };
 
@@ -28,7 +33,12 @@ const getDessertById = async (req, res, next) => {
 
     res.json(foundDessert);
   } catch (error) {
-    return next(new HttpError("Désolé, une erreur s'est produite lors de la recherche!", 404));
+    return next(
+      new HttpError(
+        "Désolé, une erreur s'est produite lors de la recherche!",
+        404
+      )
+    );
   }
 };
 
@@ -39,16 +49,28 @@ const getDessertByFilter = async (req, res, next) => {
   //get average nutrient value for desserts
   const valueForNutriment = getNutrientComparisonValue(nutrient, "desserts");
 
-  //Search dishesh in db by nutrient
-  try {
-    const filteredDesserts = await Dessert.findDessertFilter.find({
+  let filter;
+  if (nutrient.trim() === "") {
+    filter = {};
+  } else {
+    filter = {
       nutrients: {
         $elemMatch: { name: nutrient, quantity: { $gt: valueForNutriment } },
       },
-    });
+    };
+  }
+
+  //Search dishesh in db by nutrient
+  try {
+    const filteredDesserts = await Dessert.findDessertFilter(filter);
 
     if (!filteredDesserts || filteredDesserts.length === 0) {
-      return next(new HttpError("Malheuresement nous n'avons pas le dessert qui correspont à votre besoin 😔", 404));
+      return next(
+        new HttpError(
+          "Malheuresement nous n'avons pas le dessert qui correspont à votre besoin 😔",
+          404
+        )
+      );
     }
 
     res.json(filteredDesserts);
@@ -117,10 +139,15 @@ const updateDessert = async (req, res, next) => {
 // DELETE
 const deleteDessert = async (req, res, next) => {
   try {
-    await Dessert.deleteDessert(req.params.id);
+    const dessert = await Dessert.deleteDessert(req.params.id);
+
+    if (!dessert) {
+      throw new Error("Echec de la suppression");
+    }
 
     res.json({ message: "Le dessert à été éffacé" });
   } catch (error) {
+    console.log(error)
     return next(new HttpError("Echec de la suppression", 400));
   }
 };

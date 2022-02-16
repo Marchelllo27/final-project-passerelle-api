@@ -39,7 +39,7 @@ class User {
     return UsersCollection.findById(id);
   }
 
-  static async findByApiKey(apiKey) {
+  static findByApiKey(apiKey) {
     return UsersCollection.findOne({ apiKey: apiKey });
   }
 
@@ -97,25 +97,3 @@ class User {
 
 export default User;
 
-// .exec((err, record) => {
-//   if (!err && record) {
-//     const payload = {
-//       userId: record._id,
-//       email: record.email,
-//       role: record.role,
-//     };
-
-//     // Generate JWT
-//     let token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
-
-//     return res.status(200).json({
-//       userId: record._id,
-//       email: record.email,
-//       role: record.role,
-//       token: token,
-//     });
-//   } else {
-//     return res
-//       .status(400)
-//       .json({ message: "La demande n'est pas valide." });
-//   }
