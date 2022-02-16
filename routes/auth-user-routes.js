@@ -5,6 +5,12 @@ import authUsersControllers from "../controllers/auth-user-controllers"
 
 const router = Router();
 
+
+
+//GET USER BY ID
+router.get("/auth-user/:id",authUsersControllers.findUserById,
+)
+
 /**
  * @api {put} /auth-user/update UpDate User
  * @apiName UpDateUser

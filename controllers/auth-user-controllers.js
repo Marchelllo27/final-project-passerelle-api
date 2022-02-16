@@ -3,6 +3,12 @@ import { validationResult } from "express-validator";
 import User from "../models/user.model";
 import HttpError from "../models/http-error";
 
+//GET USER BY ID
+const findUserById =async(req,res,next)=>{
+      const user = await User.findUserById(req.params.id);
+    res.json(user);
+}
+
 // UPDATE USER
 const updateUser = async (req, res, next) => {
   // IF SOME VALUES NOT VALID
@@ -53,6 +59,7 @@ const deleteUser = async (req, res, next) => {
 };
 
 export default {
+  findUserById,
   updateUser,
   deleteUser,
 };
