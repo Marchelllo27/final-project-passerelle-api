@@ -4,10 +4,28 @@ import User from "../models/user.model";
 import HttpError from "../models/http-error";
 
 //GET USER BY ID
-const findUserById =async(req,res,next)=>{
-      const user = await User.findUserById(req.params.id);
-    res.json(user);
-}
+const getProfile = async (req, res, next) => {
+  if (req.userData) {
+    try {
+      const user = await User.findUserById(req.userData.userId);
+      res.json(user);
+    } catch (error) {
+      return next(
+        new HttpError(
+          "Malheureusement, nous ne pouvons pas trouver l'utilisateur",
+          404
+        )
+      );
+    }
+  } else {
+    return next(
+      new HttpError(
+        "Malheureusement, quelque chose s'est mal passé sur le server",
+        500
+      )
+    );
+  }
+};
 
 // UPDATE USER
 const updateUser = async (req, res, next) => {
@@ -74,7 +92,7 @@ const deleteUser = async (req, res, next) => {
 };
 
 export default {
-  findUserById,
+  getProfile,
   updateUser,
   deleteUser,
 };

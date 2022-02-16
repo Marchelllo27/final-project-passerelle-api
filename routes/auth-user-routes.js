@@ -8,7 +8,7 @@ const router = Router();
 
 
 //GET USER BY ID
-router.get("/auth-user/:id",authUsersControllers.findUserById,
+router.get("/auth-user",authUsersControllers.getProfile,
 )
 
 /**
