@@ -38,11 +38,10 @@ const getOrderById = async (req, res, next) => {
 
 //ADD an order
 const addOrder = async (req, res, next) => {
-  const products = [{ name: "jus", price: 4, quantity: 5 }];
   try {
     const user = await User.findUserById(req.userData.userId);
 
-    const order = new Order(products, user, req.body.totalPrice);
+    const order = new Order(req.body.products, req.body.userData, req.body.totalPrice);
 
     await order.addOrder();
     res.json({ message: "La commande a été bien ajoutée" });
@@ -53,11 +52,10 @@ const addOrder = async (req, res, next) => {
 
 //UPDATE an order
 const upDateOrder = async (req, res, next) => {
-  const products = [{ name: "new drink", price: 10, quantity: 5 }];
   try {
     const user = await User.findUserById(req.userData.userId);
 
-    const order = new Order(products, user, req.body.totalPrice);
+    const order = new Order(req.body.products, req.body.userData, req.body.totalPrice);
 
     await order.updateOrder(req.params.id, req.userData.userId);
 

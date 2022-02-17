@@ -23,11 +23,11 @@ const getAllOrders = async (req, res, next) => {
 };
 //add an order
 const addOrder = async (req, res, next) => {
-  const products = [{ name: "jus", price: 4, quantity: 5 }];
+
   try {
     const user = await User.findUserById(req.userData.userId);
     //création de l'objet order
-    const order = new Order(products, user, req.body.totalPrice);
+    const order = new Order(req.body.products, req.body.userData, req.body.totalPrice);
     //envoie de l'objet créer a la bdd
     await order.addOrder();
     res.json({ message: "La commande a été ajoutée" });
@@ -37,13 +37,13 @@ const addOrder = async (req, res, next) => {
   res.json();
 };
 
-//UPdate an order
+//Update an order
 const upDateOrder = async (req, res, next) => {
   const products = [{ name: "new drink", price: 10, quantity: 5 }];
   try {
     const user = await User.findUserById(req.userData.userId);
 
-    const order = new Order(products, user, req.body.totalPrice);
+    const order = new Order(req.body.products, req.body.userData, req.body.totalPrice);
     await order.updateOrderByAdmin(req.params.id);
 
     res.json({ message: "La mise à jour de la commande a été bien effectuée!" });
