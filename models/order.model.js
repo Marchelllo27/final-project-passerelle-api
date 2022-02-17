@@ -19,7 +19,6 @@ class Order {
 
   //Add an order
   async addOrder() {
-    console.log(this.totalPrice)
     return OrdersCollection.create({
       products: this.products,
       user: this.user,
