@@ -40,12 +40,15 @@ const getOrderById = async (req, res, next) => {
 const addOrder = async (req, res, next) => {
   try {
     const user = await User.findUserById(req.userData.userId);
-
-    const order = new Order(req.body.products, user, req.body.totalPrice);
-
-    await order.addOrder();
-    res.json({ message: "La commande a été bien ajoutée" });
+    if (user) {
+      const order = new Order(req.body.products, user, req.body.totalPrice);
+      await order.addOrder();
+      res.json({ message: "La commande a été bien ajoutée" });
+    } else {
+      return next(new HttpError("Vous ne pouvez pas créer de commande", 401));
+    }
   } catch (error) {
+    console.log(error);
     return next(new HttpError("Echec de l'ajout la commande", 400));
   }
 };
@@ -59,7 +62,9 @@ const upDateOrder = async (req, res, next) => {
 
     await order.updateOrder(req.params.id, req.userData.userId);
 
-    res.json({ message: "La mise à jour de la commande a été bien effectuée!" });
+    res.json({
+      message: "La mise à jour de la commande a été bien effectuée!",
+    });
   } catch (error) {
     return next(new HttpError("Echec de la mise à jour", 400));
   }
