@@ -31,10 +31,10 @@ class Order {
     const order = await Order.findOrder(orderId);
 
     if (order.user.id === userId) {
-      (order.products = this.products),
-        (order.user = this.user),
-        (order.totalPrice = this.totalPrice),
-        await order.save();
+       (order.products = this.products),
+       (order.user = this.user),
+       (order.totalPrice = this.totalPrice),
+       await order.save();
       return;
     } else {
       throw new Error("Echec de la mise à jour");

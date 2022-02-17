@@ -38,7 +38,6 @@ const OrdersSchema = new Schema(
       },
     },
 
-    totalPrice : {type: Number, required: true}
   },
   schemaOptions
 );

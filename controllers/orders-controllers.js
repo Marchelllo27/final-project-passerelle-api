@@ -42,14 +42,15 @@ const addOrder = async (req, res, next) => {
     const user = await User.findUserById(req.userData.userId);
     if (user) {
       const order = new Order(req.body.products, user, parseFloat(req.body.totalPrice));
+      console.log(typeof req.body.totalPrice)
       await order.addOrder();
       res.json({ message: "La commande a été bien ajoutée" });
     } else {
-      return next(new HttpError("Vous ne pouvez pas créer de commande!!!!!!!", 401));
+      return next(new HttpError("Vous ne pouvez pas créer de commande!", 401));
     }
   } catch (error) {
     console.log(error);
-    return next(new HttpError(error.message, 419));
+    return next(new HttpError(error.message, 400));
     return next(new HttpError("Echec de l'ajout la commande", 400));
   }
 };
