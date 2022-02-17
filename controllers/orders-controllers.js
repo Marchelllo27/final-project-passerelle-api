@@ -41,7 +41,7 @@ const addOrder = async (req, res, next) => {
   try {
     const user = await User.findUserById(req.userData.userId);
     if (user) {
-      const order = new Order(req.body.products, user, parse.Float(req.body.totalPrice));
+      const order = new Order(req.body.products, user, parseFloat(req.body.totalPrice));
       await order.addOrder();
       res.json({ message: "La commande a été bien ajoutée" });
     } else {
