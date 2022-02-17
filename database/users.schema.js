@@ -27,7 +27,6 @@ const UsersSchema = new Schema(
     role: {
       type: String,
       default: "USER",
-      required: false,
     },
 
     lastName: {

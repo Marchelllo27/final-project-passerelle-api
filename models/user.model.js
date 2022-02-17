@@ -36,7 +36,7 @@ class User {
 
   // FIND USER BY ID
   static findUserById(id) {
-    return UsersCollection.findById(id);
+    return UsersCollection.findById(id, {password: 0, created_at: 0, edited_at: 0});
   }
 
   static findByApiKey(apiKey) {

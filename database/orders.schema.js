@@ -12,27 +12,27 @@ const OrdersSchema = new Schema(
     products: {
       type: [
         {
-          name: { type: String, required: false },
-          quantity: { type: Number, required: false },
-          price: { type: Number, required: false },
+          name: { type: String, required: true },
+          quantity: { type: Number, required: true },
+          price: { type: Number, required: true },
         },
       ],
       required: true,
     },
 
-    totalPrice: { type: Number, required: false },
+    totalPrice: { type: Number, required: true },
 
     user: {
       type: {
-        email: { type: String, required: false },
-        lastName: { type: String, required: false },
-        firstName: { type: String, required: false },
-        phoneNumber: { type: Number, required: false },
+        email: { type: String, required: true },
+        lastName: { type: String, required: true },
+        firstName: { type: String, required: true },
+        phoneNumber: { type: Number, required: true },
         address: {
           type: {
-            street: { type: String, required: false },
-            postalCode: { type: String, required: false },
-            city: { type: String, required: false },
+            street: { type: String, required: true },
+            postalCode: { type: String, required: true },
+            city: { type: String, required: true },
           },
         },
       },

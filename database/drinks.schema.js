@@ -14,36 +14,35 @@ const DrinksSchema = new Schema(
     },
     ingredients: {
       type: Array,
-      required: false,
+      required: true,
     },
     nutrients: {
       type: [
         {
-          name: { type: String, required: false },
-          quantity: { type: Number, required: false },
+          name: { type: String, required: true },
+          quantity: { type: Number, required: true },
         },
       ],
-      required: false
     },
 
     image: {
       type: String,
-      required: false,
+      required: true,
     },
 
     weight: {
       type: Number,
-      required: false,
+      required: true,
     },
 
     description: {
       type: String,
-      required: false,
+      required: true,
     },
 
     price: {
       type: Number,
-      required: false,
+      required: true,
     },
   },
   schemaOptions
