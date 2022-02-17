@@ -41,7 +41,7 @@ const addOrder = async (req, res, next) => {
   try {
     const user = await User.findUserById(req.userData.userId);
 
-    const order = new Order(req.body.products, req.body.userData, req.body.totalPrice);
+    const order = new Order(req.body.products, user, req.body.totalPrice);
 
     await order.addOrder();
     res.json({ message: "La commande a été bien ajoutée" });
@@ -55,7 +55,7 @@ const upDateOrder = async (req, res, next) => {
   try {
     const user = await User.findUserById(req.userData.userId);
 
-    const order = new Order(req.body.products, req.body.userData, req.body.totalPrice);
+    const order = new Order(req.body.products, user, req.body.totalPrice);
 
     await order.updateOrder(req.params.id, req.userData.userId);
 
