@@ -49,6 +49,7 @@ const addOrder = async (req, res, next) => {
     }
   } catch (error) {
     console.log(error);
+    return next(new HttpError(error.message, 411));
     return next(new HttpError("Echec de l'ajout la commande", 400));
   }
 };
