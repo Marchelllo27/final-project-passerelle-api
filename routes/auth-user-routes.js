@@ -8,7 +8,7 @@ const router = Router();
 
 
 //GET USER BY ID
-router.get("/user-info",authUsersControllers.getProfile,
+router.get("/auth-user",authUsersControllers.getProfile,
 )
 
 /**
@@ -35,8 +35,8 @@ router.get("/user-info",authUsersControllers.getProfile,
  */
 
 //UPDATE AUTH USER
-router.put(
-  "/update",
+router.patch(
+  "/auth-user/update",
   check("email", "E-mail non valide").isEmail(),
   check("password", "Mot de passe invalide")
     .trim()
@@ -91,7 +91,7 @@ router.put(
 
 
 //DELETE AUTH USER FROM DATABASE
-router.delete("/delete", authUsersControllers.deleteUser);
+router.delete("/auth-user/delete", authUsersControllers.deleteUser);
 
 
 export default router;
