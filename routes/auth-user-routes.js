@@ -35,7 +35,7 @@ router.get("/user-info",authUsersControllers.getProfile,
  */
 
 //UPDATE AUTH USER
-router.patch(
+router.put(
   "/auth-user/update",
   check("email", "E-mail non valide").isEmail(),
   // check("password", "Mot de passe invalide")
