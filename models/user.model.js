@@ -77,10 +77,10 @@ class User {
   async updateUserData(id) {
     const user = await User.findUserById(id);
 
-    const hachedPass = await bcrypt.hash(this.password, 12);
+    // const hachedPass = await bcrypt.hash(this.password, 12);
 
     user.email = this.email;
-    user.password = hachedPass;
+    // user.password = hachedPass;
     user.lastName = this.lastName;
     user.firstName = this.firstName;
     user.phoneNumber = this.phoneNumber;

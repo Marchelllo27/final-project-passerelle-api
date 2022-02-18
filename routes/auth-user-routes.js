@@ -7,8 +7,8 @@ const router = Router();
 
 
 
-//GET USER BY ID
-router.get("/auth-user",authUsersControllers.getProfile,
+//GET AUTH USER DATA
+router.get("/user-info",authUsersControllers.getProfile,
 )
 
 /**
@@ -38,11 +38,11 @@ router.get("/auth-user",authUsersControllers.getProfile,
 router.patch(
   "/auth-user/update",
   check("email", "E-mail non valide").isEmail(),
-  check("password", "Mot de passe invalide")
-    .trim()
-    .notEmpty()
-    .isLength({ min: 5 })
-    .withMessage("Doit comporter au moins 5 caractères"),
+  // check("password", "Mot de passe invalide")
+  //   .trim()
+  //   .notEmpty()
+  //   .isLength({ min: 5 })
+  //   .withMessage("Doit comporter au moins 5 caractères"),
   check("lastName", "Nom invalide").trim().notEmpty(),
   check("firstName", "Prènom invalide").trim().notEmpty(),
   check("phoneNumber", "Numéro de téléphone invalide")

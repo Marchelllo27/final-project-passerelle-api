@@ -63,8 +63,8 @@ class Dessert {
   static async deleteDessert(id) {
     const dessert = await Dessert.findDessert(id);
 
-    const imageName = dessert.image;
-    fs.unlink(imageName, err => console.log(err));
+    // const imageName = dessert.image;
+    // fs.unlink(imageName, err => console.log(err));
     
     return DessertsCollection.findByIdAndDelete(id);
   }

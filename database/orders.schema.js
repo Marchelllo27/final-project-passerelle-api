@@ -20,8 +20,6 @@ const OrdersSchema = new Schema(
       required: true,
     },
 
-    totalPrice: { type: Number, required: true },
-
     user: {
       type: {
         email: { type: String, required: true },
@@ -38,7 +36,7 @@ const OrdersSchema = new Schema(
       },
     },
 
-    totalPrice : {type: Number, required: true}
+    totalPrice: { type: Number, required: true },
   },
   schemaOptions
 );
