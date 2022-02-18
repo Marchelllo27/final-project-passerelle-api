@@ -1,15 +1,12 @@
 import { Router } from "express";
 import { check } from "express-validator";
 
-import authUsersControllers from "../controllers/auth-user-controllers"
+import authUsersControllers from "../controllers/auth-user-controllers";
 
 const router = Router();
 
-
-
 //GET AUTH USER DATA
-router.get("/user-info",authUsersControllers.getProfile,
-)
+router.get("/user-info", authUsersControllers.getProfile);
 
 /**
  * @api {put} /auth-user/update UpDate User
@@ -64,8 +61,6 @@ router.put(
   authUsersControllers.updateUser
 );
 
-
-
 /**
  * @api {delete} /auth-user/delete Delete User
  * @apiName DeleteUser
@@ -89,9 +84,7 @@ router.put(
  *     { message: "Échec, l'utilisateur n'a pas été supprimé" }
  */
 
-
 //DELETE AUTH USER FROM DATABASE
 router.delete("/delete", authUsersControllers.deleteUser);
-
 
 export default router;
