@@ -28,7 +28,7 @@ describe("Users tests", async () => {
   it("find ALL users without being admin", async () => {
     await chai
       .request(process.env.URL_TEST_API)
-      .get("/users")
+      .get("/admin/users")
       .send()
       .then(res => {
         expect(res).to.have.status(401);
@@ -38,7 +38,7 @@ describe("Users tests", async () => {
   it("find ALL users if you are ADMIN", async () => {
     await chai
       .request(process.env.URL_TEST_API)
-      .get("/users")
+      .get("/admin/users")
       .set("Authorization", "Bearer " + process.env.ADMIN_TOKEN)
       .send()
       .then(res => {

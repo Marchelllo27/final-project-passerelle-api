@@ -26,7 +26,7 @@ describe("Authentication API Key", async () => {
       .request(process.env.URL_TEST_API)
       .get("/auth")
       // Je remplace le premier caractere de l'API key pour quelle n'existe pas
-      .set("x-api-key", "0" + process.env.API_KEY_USER.slice(1))
+      .set("x-api-key", "9" + process.env.API_KEY_USER.slice(1))
       .send()
       .then(res => {
         expect(res).to.have.status(400);

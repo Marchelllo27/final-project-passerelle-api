@@ -9,6 +9,9 @@
     "start": "node --experimental-specifier-resolution=node index.js",
     "dev": "nodemon --experimental-specifier-resolution=node index.js"
   },
+  "pre-commit": {
+    "run": ["test"]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -27,6 +30,7 @@
   "devDependencies": {
     "chai": "*",
     "chai-http": "^4.3.0",
-    "mocha": "*"
+    "mocha": "*",
+    "pre-commit": "^1.2.2"
   }
 }

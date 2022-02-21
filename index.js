@@ -21,7 +21,6 @@ import adminOrdersRoutes from "./routes/admin-routes/admin-order-routes";
 //import middlewares
 import checkIsAdmin from "./middlewares/check-is-admin";
 import checkAuth from "./middlewares/check-auth";
-// import cors from "./middlewares/cors";
 
 const app = express();
 dotenv.config({
@@ -43,7 +42,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/uploads/images", express.static(path.join("uploads", "images")));
-// app.use(cors);
 
 //ROUTES FOR ALL
 app.get("/", (req, res) => {
