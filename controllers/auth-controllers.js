@@ -120,7 +120,6 @@ const login = async (req, res, next) => {
   const passwordIsGood = await user.comparePassword(existingUser.password);
 
   if (!passwordIsGood) {
-    // return res.status(401).json({ message: "Mot de passe incorrect" });
     return next(new HttpError("Mot de passe incorrect", 401));
   }
 

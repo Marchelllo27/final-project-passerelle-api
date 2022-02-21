@@ -6,7 +6,7 @@ import User from "../models/user.model";
 // FIND ALL AUTH USER ORDERS
 
 const findAllOrders = async (req, res, next) => {
-  // get userId from token(we added decoded token to req.userData)
+  // get userId from token(we added decoded token to req.userData in middleware check auth)
   const userId = req.userData.userId;
   try {
     const orders = await Order.getAllOrders({ "user._id": userId });
