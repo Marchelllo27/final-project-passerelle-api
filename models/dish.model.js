@@ -1,3 +1,5 @@
+import * as fs from "fs"
+
 import DishesCollection from "../database/dishes.schema";
 class Dish {
   constructor(
@@ -73,7 +75,13 @@ class Dish {
   }
 
   // DELETE DISH BY ID
-  static deleteDishById(id) {
+  static async deleteDishById(id) {
+
+    const dish = await Dish.findDishById(id);
+
+    const imageName = dish.image;
+    fs.unlink(`uploads/images/dishes/${imageName}`, err => console.log(err));
+
     return DishesCollection.findByIdAndDelete(id);
   }
 }

@@ -36,9 +36,8 @@ router.post(
   "/products/drink/add",
   uploadFileMiddleware,
   body("name").trim().notEmpty().withMessage("le nom ne doit pas être vide !"),
-  // body("ingredients").notEmpty(),
-  // body("nutrients").notEmpty(),
-  body("image").trim().notEmpty(),
+  body("ingredients").notEmpty(),
+  body("nutrients").notEmpty(),
   body("weight", "doit être numérique")
     .trim()
     .notEmpty()

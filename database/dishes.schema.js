@@ -20,8 +20,8 @@ const DishesSchema = new Schema(
     nutrients: {
       type: [
         {
-          name: { type: String, required: true },
-          quantity: { type: Number, required: true },
+          name: { type: String, required: true},
+          quantity: { type: Number, required: true},
         },
       ],
     },

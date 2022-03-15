@@ -4,6 +4,7 @@ import HttpError from "../models/http-error";
 import getNutrientComparisonValue from "../utils/getNutrientAverageValueToComparison";
 import Dessert from "../models/dessert.model";
 
+// GET ALL DESSERTS
 const getAllDesserts = async (req, res, next) => {
   try {
     const allDesserts = await Dessert.findDessertFilter();
@@ -23,6 +24,7 @@ const getAllDesserts = async (req, res, next) => {
   }
 };
 
+// GET DESSERT BY ID
 const getDessertById = async (req, res, next) => {
   try {
     const foundDessert = await Dessert.findDessert(req.params.id);
@@ -42,6 +44,7 @@ const getDessertById = async (req, res, next) => {
   }
 };
 
+// GET DESSERT BY FILTER
 const getDessertByFilter = async (req, res, next) => {
   //get filters from query (.../...?filters)
   const nutrient = req.query.filters[0];
@@ -60,7 +63,7 @@ const getDessertByFilter = async (req, res, next) => {
     };
   }
 
-  //Search dishesh in db by nutrient
+  //Search dessert in db by nutrient
   try {
     const filteredDesserts = await Dessert.findDessertFilter(filter);
 
@@ -95,10 +98,9 @@ const addDessert = async (req, res, next) => {
 
   const dessert = new Dessert(
     req.body.name,
-    req.body.ingredients,
-    req.body.nutrients,
-    // req.body.image,
-    req.file.path,
+    JSON.parse(req.body.ingredients),
+    JSON.parse(req.body.nutrients),
+    req.file.filename,
     req.body.weight,
     req.body.description,
     req.body.price
@@ -147,7 +149,6 @@ const deleteDessert = async (req, res, next) => {
 
     res.json({ message: "Le dessert à été éffacé" });
   } catch (error) {
-    console.log(error)
     return next(new HttpError("Echec de la suppression", 400));
   }
 };

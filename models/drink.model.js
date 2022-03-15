@@ -1,3 +1,5 @@
+import * as fs from "fs"
+
 import DrinksCollection from "../database/drinks.schema";
 
 class Drink {
@@ -62,7 +64,13 @@ class Drink {
 
 
   // DELETE DRINK
-  static deleteDrinkById(id) {
+  static async deleteDrinkById(id) {
+
+    const drink = await Drink.findDrink(id);
+
+    const imageName = drink.image;
+    fs.unlink(`uploads/images/drinks/${imageName}`, err => console.log(err));
+
     return DrinksCollection.findByIdAndDelete(id);
   }
   

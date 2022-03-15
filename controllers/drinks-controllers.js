@@ -98,10 +98,9 @@ const addDrink = async (req, res, next) => {
   }
   const drink = new Drink(
     req.body.name,
-    req.body.ingredients,
-    req.body.nutrients,
-    // req.body.image,
-    req.file.path,
+    JSON.parse(req.body.ingredients),
+    JSON.parse(req.body.nutrients),
+    req.file.filename,
     req.body.weight,
     req.body.description,
     req.body.price
@@ -147,6 +146,7 @@ const deleteDrink = async (req, res, next) => {
 
     res.json({ message: "La boisson à été effacée" });
   } catch (error) {
+    console.log(error)
     return next(new HttpError("Echec de la suppression", 400));
   }
 };
