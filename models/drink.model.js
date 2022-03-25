@@ -25,7 +25,7 @@ class Drink {
   
   //UPDATE DRINK
   async updateDrink(id) {
-    const drink = await this.findDrink(id);
+    const drink = await Drink.findDrink(id);
 
     drink.name = this.name;
     drink.ingredients = this.ingredients;

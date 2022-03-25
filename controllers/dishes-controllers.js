@@ -111,13 +111,22 @@ const addDish = async (req, res, next) => {
 
 // UPDATE DISH
 const updateDish = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  let imageData = req.body.image;
+
+  if (req.file) {
+    imageData = req.file.filename;
+  }
+
   try {
     const dish = new Dish(
       req.body.name,
-      req.body.ingredients,
-      req.body.nutrients,
-      // req.body.image,
-      req.file.path,
+      JSON.parse(req.body.ingredients),
+      JSON.parse(req.body.nutrients),
+      imageData,
       req.body.weight,
       req.body.description,
       req.body.type,
@@ -126,6 +135,7 @@ const updateDish = async (req, res, next) => {
     await dish.upDateDish(req.params.id);
     res.json({ message: "Mise à jour effectuée!" });
   } catch (error) {
+    console.log(error);
     next(new HttpError("Echec de la mise à jour ", 400));
   }
 };

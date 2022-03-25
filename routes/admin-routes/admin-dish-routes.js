@@ -5,7 +5,6 @@ import { body } from "express-validator";
 import dishesControllers from "../../controllers/dishes-controllers";
 import uploadFileMiddleware from "../../middlewares/file-upload";
 
-
 const router = Router();
 
 /**
@@ -46,9 +45,8 @@ router.post(
   dishesControllers.addDish
 );
 
-
 /**
- * @api {put} /products/dish/update/:id Update Dish 
+ * @api {put} /products/dish/update/:id Update Dish
  * @apiName UpdateDish
  * @apiGroup Admin
  *
@@ -57,20 +55,30 @@ router.post(
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *{ "message": "Mise à jour effectuée!"}
- * 
- * 
- *  @apiError  Bad Request Error HTTP 400 Echec upDate Dish. 
- * 
+ *
+ *
+ *  @apiError  Bad Request Error HTTP 400 Echec upDate Dish.
+ *
  * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request 
+ *     HTTP/1.1 400 Bad Request
  *     { message: "Echec de la mise à jour" }
  */
 
 // UPDATE DISH IN DATABASE
-router.put("/products/dish/update/:id", dishesControllers.updateDish);
+router.put(
+  "/products/dish/update/:id",
+  uploadFileMiddleware,
+  body("name").trim().notEmpty().withMessage("le nom ne doit pas être vide !"),
+  body("ingredients").notEmpty(),
+  body("nutrients").notEmpty(),
+  body("weight", "doit être numérique").trim().notEmpty().isNumeric(),
+  body("description").trim().notEmpty(),
+  body("price").trim().notEmpty().isNumeric(),
+  dishesControllers.updateDish
+);
 
 /**
- * @api {delete} products/dish/delete/:id Delete Dish 
+ * @api {delete} products/dish/delete/:id Delete Dish
  * @apiName DeleteDish
  * @apiGroup Admin
  *
@@ -79,12 +87,12 @@ router.put("/products/dish/update/:id", dishesControllers.updateDish);
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *{ "message": "Le plat à été effacé"}
- * 
- * 
- *  @apiError  Bad Request Error HTTP 400 Echec Delete Dish. 
- * 
+ *
+ *
+ *  @apiError  Bad Request Error HTTP 400 Echec Delete Dish.
+ *
  * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request 
+ *     HTTP/1.1 400 Bad Request
  *     { message: "Echec de la suppression" }
  */
 

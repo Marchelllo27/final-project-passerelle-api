@@ -24,7 +24,7 @@ class Dessert {
 
   //UPDATE DESSERT
   async updateDessert(id) {
-    const dish = await this.findDessert(id);
+    const dish = await Dessert.findDessert(id);
 
     dish.name = this.name;
     dish.ingredients = this.ingredients;

@@ -52,9 +52,8 @@ router.post(
   drinksControllers.addDrink
 );
 
-
 /**
- * @api {put} /products/drink/update/:id Update Drink 
+ * @api {put} /products/drink/update/:id Update Drink
  * @apiName UpdateDrink
  * @apiGroup Admin
  *
@@ -63,21 +62,38 @@ router.post(
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *{ "message": "Mise à jour effectuée!"}
- * 
- * 
- *  @apiError  Bad Request Error HTTP 400 Echec upDate Drink. 
- * 
+ *
+ *
+ *  @apiError  Bad Request Error HTTP 400 Echec upDate Drink.
+ *
  * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request 
+ *     HTTP/1.1 400 Bad Request
  *     { message: "Echec de la mise à jour" }
  */
 
 // UPDATE DRINK IN DATABASE
-router.put("/products/drink/update/:id", drinksControllers.updateDrink);
-
+router.put(
+  "/products/drink/update/:id",
+  uploadFileMiddleware,
+  body("name").trim().notEmpty().withMessage("le nom ne doit pas être vide !"),
+  body("ingredients").notEmpty(),
+  body("nutrients").notEmpty(),
+  body("weight", "doit être numérique")
+    .trim()
+    .notEmpty()
+    .isNumeric()
+    .withMessage("Le poid doit étre un chiffre"),
+  body("description").trim().notEmpty(),
+  body("price")
+    .trim()
+    .notEmpty()
+    .isNumeric()
+    .withMessage("Le prix doit être un chiffre"),
+  drinksControllers.updateDrink
+);
 
 /**
- * @api {delete} /products/drink/delete/:id Delete Drink 
+ * @api {delete} /products/drink/delete/:id Delete Drink
  * @apiGroup Admin
  *
  * @apiSuccess {String} Delete a drink with his Id by an authenticate Admin.
@@ -85,12 +101,12 @@ router.put("/products/drink/update/:id", drinksControllers.updateDrink);
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *{ "message": "La boisson à été effacée"}
- * 
- * 
- *  @apiError  Bad Request Error HTTP 400 Echec Delete drink. 
- * 
+ *
+ *
+ *  @apiError  Bad Request Error HTTP 400 Echec Delete drink.
+ *
  * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request 
+ *     HTTP/1.1 400 Bad Request
  *     { message: "Echec de la suppression" }
  */
 

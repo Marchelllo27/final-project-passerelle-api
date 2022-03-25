@@ -120,13 +120,22 @@ const addDessert = async (req, res, next) => {
 // UPDATE
 
 const updateDessert = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  let imageData = req.body.image;
+
+  if (req.file) {
+    imageData = req.file.filename;
+  }
+
   try {
     const dessert = new Dessert(
       req.body.name,
-      req.body.ingredients,
-      req.body.nutrients,
-      // req.body.image,
-      req.file.path,
+      JSON.parse(req.body.ingredients),
+      JSON.parse(req.body.nutrients),
+      imageData,
       req.body.weight,
       req.body.description,
       req.body.price

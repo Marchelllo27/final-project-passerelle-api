@@ -6,8 +6,6 @@ import uploadFileMiddleware from "../../middlewares/file-upload";
 
 const router = Router();
 
-
-
 /**
  * @api {post} products/dessert/add Add Dessert 
  * @apiName AddDessert
@@ -47,7 +45,7 @@ router.post(
 );
 
 /**
- * @api {put} /products/dessert/update/:id Update Dessert 
+ * @api {put} /products/dessert/update/:id Update Dessert
  * @apiName UpdateDessert
  * @apiGroup Admin
  *
@@ -56,20 +54,30 @@ router.post(
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *{ "message": "Mise à jour effectuée!"}
- * 
- * 
- *  @apiError  Bad Request Error HTTP 400 Echec upDate Dessert. 
- * 
+ *
+ *
+ *  @apiError  Bad Request Error HTTP 400 Echec upDate Dessert.
+ *
  * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request 
+ *     HTTP/1.1 400 Bad Request
  *     { message: "Echec de la mise à jour" }
  */
 
 // UPDATE DESSERT IN DATABASE
-router.put("/products/dessert/update/:id", dessertsControllers.updateDessert);
+router.put(
+  "/products/dessert/update/:id",
+  uploadFileMiddleware,
+  body("name").trim().notEmpty().withMessage("le nom ne doit pas être vide !"),
+  body("ingredients").notEmpty(),
+  body("nutrients").notEmpty(),
+  body("weight", "doit être numérique").trim().notEmpty().isNumeric(),
+  body("description").trim().notEmpty(),
+  body("price").trim().notEmpty().isNumeric(),
+  dessertsControllers.updateDessert
+);
 
 /**
- * @api {delete} /products/dessert/delete/:id Delete Dessert 
+ * @api {delete} /products/dessert/delete/:id Delete Dessert
  * @apiName DeleteDessert
  * @apiGroup Admin
  *
@@ -78,12 +86,12 @@ router.put("/products/dessert/update/:id", dessertsControllers.updateDessert);
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *{ "message": "Le dessert à été éffacé"}
- * 
- * 
- *  @apiError  Bad Request Error HTTP 400 Echec Delete Dessert. 
- * 
+ *
+ *
+ *  @apiError  Bad Request Error HTTP 400 Echec Delete Dessert.
+ *
  * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Bad Request 
+ *     HTTP/1.1 400 Bad Request
  *     { message: "Echec de la suppression" }
  */
 

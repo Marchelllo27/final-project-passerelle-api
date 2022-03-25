@@ -119,7 +119,7 @@ router.get("/products/all-dishes", dishesControllers.getAllDishes);
  *     }
  */
 
-//GET ONE DISHE BY ID
+//GET ONE DISH BY ID
 router.get("/products/dish/:id", dishesControllers.getDishById);
 
 
