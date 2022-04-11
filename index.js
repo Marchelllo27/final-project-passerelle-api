@@ -45,7 +45,7 @@ app.use("/uploads/images", express.static(path.join("uploads", "images")));
 
 //ROUTES FOR ALL
 app.get("/", (req, res) => {
-  res.json({ message: "Bienvenue sur notre API. made by Gout Bio team." });
+  res.json({ message: "Bienvenue sur notre API. made by Gout Bio team.!!!" });
 });
 app.use(authRoutes);
 app.use(dishesRoutes);
