@@ -73,15 +73,14 @@ app.use(function (req, res) {
 app.use(function (error, req, res, next) {
   // if request failed and have a file in request we want to delete file from a upload/images
   if (req.file) {
-    fs.unlink(req.file.path, err => {   //need to adjust path to delete image if erro occurs
+    fs.unlink(req.file.path, err => {
+      //need to adjust path to delete image if erro occurs
       console.log(err);
     });
   }
 
   res.status(error.code || 500).json({
-    message:
-      error.message ||
-      "Malheureusement, quelque chose s'est mal passé sur le server",
+    message: error.message || "Malheureusement, quelque chose s'est mal passé sur le server",
   });
 });
 

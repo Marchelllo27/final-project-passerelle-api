@@ -1,6 +1,7 @@
 import * as fs from "fs"
 
 import DessertsCollection from "../database/desserts.schema";
+
 class Dessert {
   constructor(name, ingredients, nutrients, image, weight, description, price) {
     this.name = name;
